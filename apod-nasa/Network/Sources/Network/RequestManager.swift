@@ -1,80 +1,75 @@
-//
-//  RequestManager.swift
-//  Network
-//
-//  Created by Pablo Rosalvo de Melo Lopes on 12/02/25.
-//
-
 import Foundation
 
-import Foundation
-
-protocol RequestManagerProtocol {
+public protocol RequestManagerProtocol {
     func request<T: Decodable>(
-        baseURL: String,
-        endpoint: APIEndpoint,
-        method: HTTPMethodV2,
-        parameters: ParametersV2?,
-        headers: HTTPHeadersV2?
+        endpoint: EndPointType
     ) async throws -> T
 }
 
-import Foundation
-
 public struct RequestManager: RequestManagerProtocol {
     let session: URLSession
+    private let apiKey: String
+
+    private let baseURL: String = "https://api.nasa.gov"
 
     public init(session: URLSession = .shared) {
         self.session = session
+        self.apiKey = SecretsManager.shared.apiKey
     }
 
     public func request<T: Decodable>(
-        baseURL: String,
-        endpoint: APIEndpoint,
-        method: HTTPMethodV2 = .get,
-        parameters: ParametersV2? = nil,
-        headers: HTTPHeadersV2? = nil
+        endpoint: EndPointType
     ) async throws -> T {
-        guard let url = URL(string: baseURL + endpoint.path) else {
-            throw RequestError(reason: "Invalid URL", statusCode: 400)
+        var fullURL = baseURL + endpoint.path
+        var queryParams = endpoint.queryParameters
+
+        queryParams["api_key"] = apiKey
+        fullURL = addQueryParameters(queryParams, to: fullURL)
+
+        guard let url = URL(string: fullURL) else {
+            throw RequestError.invalidURL
         }
 
         var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
+        request.httpMethod = endpoint.httpMethod.rawValue
 
-        var updatedHeaders = headers ?? [:]
-        updatedHeaders["X-CoinAPI-Key"] = "32524CF9-75BF-4A4A-93AA-460402AC4C2E"
-        request.allHTTPHeaderFields = updatedHeaders
-
-        if let parameters = parameters {
-            request.httpBody = convertJsonForData(json: parameters)
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let headers = endpoint.headers {
+            request.allHTTPHeaderFields = headers
         }
 
         do {
             let (data, response) = try await session.data(for: request)
 
             guard let httpResponse = response as? HTTPURLResponse else {
-                throw RequestError(reason: "Invalid response", statusCode: nil)
+                throw RequestError.invalidResponse
             }
 
-            ResquestLog.requestLog(data: data, response: httpResponse, error: nil)
+            ResquestLog.requestLog(data: data, response: httpResponse)
 
             guard (200...299).contains(httpResponse.statusCode) else {
-                throw RequestError(reason: "HTTP Error", statusCode: httpResponse.statusCode, json: nil)
+                let errorMessage = String(data: data, encoding: .utf8)
+                let jsonResponse = SafeDictionary.from(data: data)
+                throw RequestError.httpError(statusCode: httpResponse.statusCode, message: errorMessage, data: jsonResponse)
             }
 
             let decoder = JSONDecoder()
-            let decodedData = try decoder.decode(T.self, from: data)
+            return try decoder.decode(T.self, from: data)
 
-            return decodedData
+        } catch let urlError as URLError {
+            throw RequestError.networkError(urlError.localizedDescription)
         } catch {
-            throw RequestError(reason: "Request failed: \(error.localizedDescription)", statusCode: nil)
+            throw RequestError.networkError(error.localizedDescription)
         }
     }
 
-    private func convertJsonForData(json: [String: Any]?) -> Data? {
-        guard let json = json else { return nil }
-        return try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+    private func addQueryParameters(_ parameters: [String: Any], to url: String) -> String {
+        guard var urlComponents = URLComponents(string: url) else { return url }
+
+        let queryItems = parameters.map { key, value in
+            URLQueryItem(name: key, value: "\(value)")
+        }
+
+        urlComponents.queryItems = (urlComponents.queryItems ?? []) + queryItems
+        return urlComponents.url?.absoluteString ?? url
     }
 }

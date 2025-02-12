@@ -7,15 +7,26 @@
 
 import Foundation
 
-public final class RequestError: Error, Sendable {
-    public let statusCode: HTTPStatusCode
-    public let reason: String
-    public let data: SafeDictionary?  // ✅ Agora `SafeDictionary` é Sendable
-
-    public init(reason: String = "", statusCode: Int? = 0, json: SafeDictionary? = nil) {
-        self.reason = reason
-        self.statusCode = HTTPStatusCode(rawValue: statusCode ?? 0) ?? .invalidStatus
-        self.data = json
+public enum RequestError: Error, Sendable {
+    case invalidURL
+    case invalidResponse
+    case httpError(statusCode: Int, message: String?, data: SafeDictionary?)
+    case decodingError(String)
+    case networkError(String)
+    
+    public var errorMessage: String {
+        switch self {
+        case .invalidURL:
+            return "URL inválida."
+        case .invalidResponse:
+            return "A resposta do servidor é inválida."
+        case let .httpError(statusCode, message, _):
+            return "Erro HTTP (\(statusCode)): \(message ?? "Sem detalhes disponíveis.")"
+        case let .decodingError(description):
+            return "Erro ao decodificar os dados: \(description)"
+        case let .networkError(description):
+            return "Erro de conexão: \(description)"
+        }
     }
 }
 
@@ -25,9 +36,32 @@ public struct SafeDictionary: Sendable {
     init(values: [String: CodableValue]) {
         self.values = values
     }
+
+    public static func from(data: Data?) -> SafeDictionary? {
+        guard let data = data,
+              let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+            return nil
+        }
+
+        let safeValues = jsonObject.compactMapValues { value -> CodableValue? in
+            switch value {
+            case let string as String:
+                return .string(string)
+            case let int as Int:
+                return .int(int)
+            case let double as Double:
+                return .double(double)
+            case let bool as Bool:
+                return .bool(bool)
+            default:
+                return nil
+            }
+        }
+
+        return SafeDictionary(values: safeValues)
+    }
 }
 
-// 🔹 Apenas valores `Sendable` são permitidos
 public enum CodableValue: Sendable {
     case string(String)
     case int(Int)

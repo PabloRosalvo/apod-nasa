@@ -8,7 +8,7 @@
 import Foundation
 
 public class ResquestLog {
-    static func requestLog(data: Data?, response: HTTPURLResponse?, error: Error?) {
+    static func requestLog(data: Data?, response: HTTPURLResponse?, error: Error? = nil) {
         let urlString = response?.url?.absoluteString
         let components = NSURLComponents(string: urlString ?? "")
         

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum HTTPMethodV2: String {
+public enum HTTPMethod: String {
     case options = "OPTIONS"
     case get     = "GET"
     case head    = "HEAD"
@@ -19,6 +19,8 @@ public enum HTTPMethodV2: String {
     case connect = "CONNECT"
 }
 
-public typealias ParametersV2 = [String: Any]
+public typealias Parameters = [String: Any]
 
-public typealias HTTPHeadersV2 = [String: String]
+public typealias QueryParameters = [String: Any]
+
+public typealias HTTPHeaders = [String: String]

@@ -6,54 +6,59 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		251AD6342D5D29E9003E56C7 /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = 251AD6332D5D29E9003E56C7 /* Network */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
-		25635FF82D5CE60800F1183C /* PBXContainerItemProxy */ = {
+		251AD6142D5D293F003E56C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 25635FD62D5CE60600F1183C /* Project object */;
+			containerPortal = 251AD5F22D5D293D003E56C7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 25635FDD2D5CE60600F1183C;
+			remoteGlobalIDString = 251AD5F92D5D293D003E56C7;
 			remoteInfo = "apod-nasa";
 		};
-		256360022D5CE60800F1183C /* PBXContainerItemProxy */ = {
+		251AD61E2D5D293F003E56C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 25635FD62D5CE60600F1183C /* Project object */;
+			containerPortal = 251AD5F22D5D293D003E56C7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 25635FDD2D5CE60600F1183C;
+			remoteGlobalIDString = 251AD5F92D5D293D003E56C7;
 			remoteInfo = "apod-nasa";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		25635FDE2D5CE60600F1183C /* apod-nasa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "apod-nasa.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		25635FF72D5CE60800F1183C /* apod-nasaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "apod-nasaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		256360012D5CE60800F1183C /* apod-nasaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "apod-nasaUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		251AD5FA2D5D293D003E56C7 /* apod-nasa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "apod-nasa.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		251AD6132D5D293F003E56C7 /* apod-nasaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "apod-nasaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		251AD61D2D5D293F003E56C7 /* apod-nasaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "apod-nasaUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		251AD6312D5D295A003E56C7 /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Network; path = ../Network; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		256360092D5CE60800F1183C /* Exceptions for "apod-nasa" folder in "apod-nasa" target */ = {
+		251AD6252D5D293F003E56C7 /* Exceptions for "apod-nasa" folder in "apod-nasa" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 25635FDD2D5CE60600F1183C /* apod-nasa */;
+			target = 251AD5F92D5D293D003E56C7 /* apod-nasa */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		25635FE02D5CE60600F1183C /* apod-nasa */ = {
+		251AD5FC2D5D293D003E56C7 /* apod-nasa */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				256360092D5CE60800F1183C /* Exceptions for "apod-nasa" folder in "apod-nasa" target */,
+				251AD6252D5D293F003E56C7 /* Exceptions for "apod-nasa" folder in "apod-nasa" target */,
 			);
 			path = "apod-nasa";
 			sourceTree = "<group>";
 		};
-		25635FFA2D5CE60800F1183C /* apod-nasaTests */ = {
+		251AD6162D5D293F003E56C7 /* apod-nasaTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "apod-nasaTests";
 			sourceTree = "<group>";
 		};
-		256360042D5CE60800F1183C /* apod-nasaUITests */ = {
+		251AD6202D5D293F003E56C7 /* apod-nasaUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "apod-nasaUITests";
 			sourceTree = "<group>";
@@ -61,21 +66,22 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		25635FDB2D5CE60600F1183C /* Frameworks */ = {
+		251AD5F72D5D293D003E56C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				251AD6342D5D29E9003E56C7 /* Network in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		251AD6102D5D293F003E56C7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		25635FF42D5CE60800F1183C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		25635FFE2D5CE60800F1183C /* Frameworks */ = {
+		251AD61A2D5D293F003E56C7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -85,157 +91,167 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		25635FD52D5CE60500F1183C = {
+		251AD5F12D5D293D003E56C7 = {
 			isa = PBXGroup;
 			children = (
-				25635FE02D5CE60600F1183C /* apod-nasa */,
-				25635FFA2D5CE60800F1183C /* apod-nasaTests */,
-				256360042D5CE60800F1183C /* apod-nasaUITests */,
-				25635FDF2D5CE60600F1183C /* Products */,
+				251AD6312D5D295A003E56C7 /* Network */,
+				251AD5FC2D5D293D003E56C7 /* apod-nasa */,
+				251AD6162D5D293F003E56C7 /* apod-nasaTests */,
+				251AD6202D5D293F003E56C7 /* apod-nasaUITests */,
+				251AD6322D5D29E9003E56C7 /* Frameworks */,
+				251AD5FB2D5D293D003E56C7 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		25635FDF2D5CE60600F1183C /* Products */ = {
+		251AD5FB2D5D293D003E56C7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				25635FDE2D5CE60600F1183C /* apod-nasa.app */,
-				25635FF72D5CE60800F1183C /* apod-nasaTests.xctest */,
-				256360012D5CE60800F1183C /* apod-nasaUITests.xctest */,
+				251AD5FA2D5D293D003E56C7 /* apod-nasa.app */,
+				251AD6132D5D293F003E56C7 /* apod-nasaTests.xctest */,
+				251AD61D2D5D293F003E56C7 /* apod-nasaUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		251AD6322D5D29E9003E56C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		25635FDD2D5CE60600F1183C /* apod-nasa */ = {
+		251AD5F92D5D293D003E56C7 /* apod-nasa */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2563600A2D5CE60800F1183C /* Build configuration list for PBXNativeTarget "apod-nasa" */;
+			buildConfigurationList = 251AD6262D5D293F003E56C7 /* Build configuration list for PBXNativeTarget "apod-nasa" */;
 			buildPhases = (
-				25635FDA2D5CE60600F1183C /* Sources */,
-				25635FDB2D5CE60600F1183C /* Frameworks */,
-				25635FDC2D5CE60600F1183C /* Resources */,
+				251AD5F62D5D293D003E56C7 /* Sources */,
+				251AD5F72D5D293D003E56C7 /* Frameworks */,
+				251AD5F82D5D293D003E56C7 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				25635FE02D5CE60600F1183C /* apod-nasa */,
+				251AD5FC2D5D293D003E56C7 /* apod-nasa */,
 			);
 			name = "apod-nasa";
 			packageProductDependencies = (
+				251AD6332D5D29E9003E56C7 /* Network */,
 			);
 			productName = "apod-nasa";
-			productReference = 25635FDE2D5CE60600F1183C /* apod-nasa.app */;
+			productReference = 251AD5FA2D5D293D003E56C7 /* apod-nasa.app */;
 			productType = "com.apple.product-type.application";
 		};
-		25635FF62D5CE60800F1183C /* apod-nasaTests */ = {
+		251AD6122D5D293F003E56C7 /* apod-nasaTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2563600F2D5CE60800F1183C /* Build configuration list for PBXNativeTarget "apod-nasaTests" */;
+			buildConfigurationList = 251AD62B2D5D293F003E56C7 /* Build configuration list for PBXNativeTarget "apod-nasaTests" */;
 			buildPhases = (
-				25635FF32D5CE60800F1183C /* Sources */,
-				25635FF42D5CE60800F1183C /* Frameworks */,
-				25635FF52D5CE60800F1183C /* Resources */,
+				251AD60F2D5D293F003E56C7 /* Sources */,
+				251AD6102D5D293F003E56C7 /* Frameworks */,
+				251AD6112D5D293F003E56C7 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				25635FF92D5CE60800F1183C /* PBXTargetDependency */,
+				251AD6152D5D293F003E56C7 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				25635FFA2D5CE60800F1183C /* apod-nasaTests */,
+				251AD6162D5D293F003E56C7 /* apod-nasaTests */,
 			);
 			name = "apod-nasaTests";
 			packageProductDependencies = (
 			);
 			productName = "apod-nasaTests";
-			productReference = 25635FF72D5CE60800F1183C /* apod-nasaTests.xctest */;
+			productReference = 251AD6132D5D293F003E56C7 /* apod-nasaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		256360002D5CE60800F1183C /* apod-nasaUITests */ = {
+		251AD61C2D5D293F003E56C7 /* apod-nasaUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 256360122D5CE60800F1183C /* Build configuration list for PBXNativeTarget "apod-nasaUITests" */;
+			buildConfigurationList = 251AD62E2D5D293F003E56C7 /* Build configuration list for PBXNativeTarget "apod-nasaUITests" */;
 			buildPhases = (
-				25635FFD2D5CE60800F1183C /* Sources */,
-				25635FFE2D5CE60800F1183C /* Frameworks */,
-				25635FFF2D5CE60800F1183C /* Resources */,
+				251AD6192D5D293F003E56C7 /* Sources */,
+				251AD61A2D5D293F003E56C7 /* Frameworks */,
+				251AD61B2D5D293F003E56C7 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				256360032D5CE60800F1183C /* PBXTargetDependency */,
+				251AD61F2D5D293F003E56C7 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				256360042D5CE60800F1183C /* apod-nasaUITests */,
+				251AD6202D5D293F003E56C7 /* apod-nasaUITests */,
 			);
 			name = "apod-nasaUITests";
 			packageProductDependencies = (
 			);
 			productName = "apod-nasaUITests";
-			productReference = 256360012D5CE60800F1183C /* apod-nasaUITests.xctest */;
+			productReference = 251AD61D2D5D293F003E56C7 /* apod-nasaUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		25635FD62D5CE60600F1183C /* Project object */ = {
+		251AD5F22D5D293D003E56C7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					25635FDD2D5CE60600F1183C = {
+					251AD5F92D5D293D003E56C7 = {
 						CreatedOnToolsVersion = 16.2;
 					};
-					25635FF62D5CE60800F1183C = {
+					251AD6122D5D293F003E56C7 = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 25635FDD2D5CE60600F1183C;
+						TestTargetID = 251AD5F92D5D293D003E56C7;
 					};
-					256360002D5CE60800F1183C = {
+					251AD61C2D5D293F003E56C7 = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 25635FDD2D5CE60600F1183C;
+						TestTargetID = 251AD5F92D5D293D003E56C7;
 					};
 				};
 			};
-			buildConfigurationList = 25635FD92D5CE60600F1183C /* Build configuration list for PBXProject "apod-nasa" */;
+			buildConfigurationList = 251AD5F52D5D293D003E56C7 /* Build configuration list for PBXProject "apod-nasa" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 25635FD52D5CE60500F1183C;
+			mainGroup = 251AD5F12D5D293D003E56C7;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 25635FDF2D5CE60600F1183C /* Products */;
+			productRefGroup = 251AD5FB2D5D293D003E56C7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				25635FDD2D5CE60600F1183C /* apod-nasa */,
-				25635FF62D5CE60800F1183C /* apod-nasaTests */,
-				256360002D5CE60800F1183C /* apod-nasaUITests */,
+				251AD5F92D5D293D003E56C7 /* apod-nasa */,
+				251AD6122D5D293F003E56C7 /* apod-nasaTests */,
+				251AD61C2D5D293F003E56C7 /* apod-nasaUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		25635FDC2D5CE60600F1183C /* Resources */ = {
+		251AD5F82D5D293D003E56C7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		25635FF52D5CE60800F1183C /* Resources */ = {
+		251AD6112D5D293F003E56C7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		25635FFF2D5CE60800F1183C /* Resources */ = {
+		251AD61B2D5D293F003E56C7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -245,21 +261,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		25635FDA2D5CE60600F1183C /* Sources */ = {
+		251AD5F62D5D293D003E56C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		25635FF32D5CE60800F1183C /* Sources */ = {
+		251AD60F2D5D293F003E56C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		25635FFD2D5CE60800F1183C /* Sources */ = {
+		251AD6192D5D293F003E56C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,20 +285,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		25635FF92D5CE60800F1183C /* PBXTargetDependency */ = {
+		251AD6152D5D293F003E56C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 25635FDD2D5CE60600F1183C /* apod-nasa */;
-			targetProxy = 25635FF82D5CE60800F1183C /* PBXContainerItemProxy */;
+			target = 251AD5F92D5D293D003E56C7 /* apod-nasa */;
+			targetProxy = 251AD6142D5D293F003E56C7 /* PBXContainerItemProxy */;
 		};
-		256360032D5CE60800F1183C /* PBXTargetDependency */ = {
+		251AD61F2D5D293F003E56C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 25635FDD2D5CE60600F1183C /* apod-nasa */;
-			targetProxy = 256360022D5CE60800F1183C /* PBXContainerItemProxy */;
+			target = 251AD5F92D5D293D003E56C7 /* apod-nasa */;
+			targetProxy = 251AD61E2D5D293F003E56C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		2563600B2D5CE60800F1183C /* Debug */ = {
+		251AD6272D5D293F003E56C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -296,13 +312,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "test.crypto.exchanges.apod-nasa";
+				PRODUCT_BUNDLE_IDENTIFIER = "pod.nasa-app.apod-nasa";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -310,7 +326,7 @@
 			};
 			name = Debug;
 		};
-		2563600C2D5CE60800F1183C /* Release */ = {
+		251AD6282D5D293F003E56C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -324,13 +340,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "test.crypto.exchanges.apod-nasa";
+				PRODUCT_BUNDLE_IDENTIFIER = "pod.nasa-app.apod-nasa";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -338,7 +354,7 @@
 			};
 			name = Release;
 		};
-		2563600D2D5CE60800F1183C /* Debug */ = {
+		251AD6292D5D293F003E56C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -390,7 +406,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -401,7 +417,7 @@
 			};
 			name = Debug;
 		};
-		2563600E2D5CE60800F1183C /* Release */ = {
+		251AD62A2D5D293F003E56C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -447,7 +463,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -457,16 +473,16 @@
 			};
 			name = Release;
 		};
-		256360102D5CE60800F1183C /* Debug */ = {
+		251AD62C2D5D293F003E56C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "test.crypto.exchanges.apod-nasaTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "pod.nasa-app.apod-nasaTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -475,16 +491,16 @@
 			};
 			name = Debug;
 		};
-		256360112D5CE60800F1183C /* Release */ = {
+		251AD62D2D5D293F003E56C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "test.crypto.exchanges.apod-nasaTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "pod.nasa-app.apod-nasaTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -493,14 +509,14 @@
 			};
 			name = Release;
 		};
-		256360132D5CE60800F1183C /* Debug */ = {
+		251AD62F2D5D293F003E56C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "test.crypto.exchanges.apod-nasaUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "pod.nasa-app.apod-nasaUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -509,14 +525,14 @@
 			};
 			name = Debug;
 		};
-		256360142D5CE60800F1183C /* Release */ = {
+		251AD6302D5D293F003E56C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "test.crypto.exchanges.apod-nasaUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "pod.nasa-app.apod-nasaUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -528,43 +544,50 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		25635FD92D5CE60600F1183C /* Build configuration list for PBXProject "apod-nasa" */ = {
+		251AD5F52D5D293D003E56C7 /* Build configuration list for PBXProject "apod-nasa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2563600D2D5CE60800F1183C /* Debug */,
-				2563600E2D5CE60800F1183C /* Release */,
+				251AD6292D5D293F003E56C7 /* Debug */,
+				251AD62A2D5D293F003E56C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2563600A2D5CE60800F1183C /* Build configuration list for PBXNativeTarget "apod-nasa" */ = {
+		251AD6262D5D293F003E56C7 /* Build configuration list for PBXNativeTarget "apod-nasa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2563600B2D5CE60800F1183C /* Debug */,
-				2563600C2D5CE60800F1183C /* Release */,
+				251AD6272D5D293F003E56C7 /* Debug */,
+				251AD6282D5D293F003E56C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2563600F2D5CE60800F1183C /* Build configuration list for PBXNativeTarget "apod-nasaTests" */ = {
+		251AD62B2D5D293F003E56C7 /* Build configuration list for PBXNativeTarget "apod-nasaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				256360102D5CE60800F1183C /* Debug */,
-				256360112D5CE60800F1183C /* Release */,
+				251AD62C2D5D293F003E56C7 /* Debug */,
+				251AD62D2D5D293F003E56C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		256360122D5CE60800F1183C /* Build configuration list for PBXNativeTarget "apod-nasaUITests" */ = {
+		251AD62E2D5D293F003E56C7 /* Build configuration list for PBXNativeTarget "apod-nasaUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				256360132D5CE60800F1183C /* Debug */,
-				256360142D5CE60800F1183C /* Release */,
+				251AD62F2D5D293F003E56C7 /* Debug */,
+				251AD6302D5D293F003E56C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		251AD6332D5D29E9003E56C7 /* Network */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Network;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 25635FD62D5CE60600F1183C /* Project object */;
+	rootObject = 251AD5F22D5D293D003E56C7 /* Project object */;
 }

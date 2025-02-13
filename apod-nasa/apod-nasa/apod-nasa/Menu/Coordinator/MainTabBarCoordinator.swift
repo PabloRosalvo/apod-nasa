@@ -46,7 +46,7 @@ final class MainTabBarCoordinator: Coordinator {
     }
 
     private func createFavoritesViewController() -> UIViewController {
-        let favoritesViewController = FavoritesViewController()
+        let favoritesViewController = FavoritesViewController(viewModel: FavoritesViewModel())
         favoritesViewController.tabBarItem = UITabBarItem(
             title: "Favoritos",
             image: UIImage(systemName: "star.fill"),
@@ -72,7 +72,7 @@ final class MainTabBarCoordinator: Coordinator {
                 homeVC.viewWillAppear(true)
             }
             if let favoritesVC = viewControler as? FavoritesViewController {
-                favoritesVC.loadFavorites()
+                favoritesVC.viewDidLoad()
             }
         }
     }

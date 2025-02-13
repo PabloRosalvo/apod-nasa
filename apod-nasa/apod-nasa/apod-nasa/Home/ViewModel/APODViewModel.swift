@@ -47,7 +47,7 @@ final class APODViewModel: APODViewModelProtocol {
     
     func fetchAPOD() {
         Task {
-            let result = await service.fetchAPOD(date: "2025-02-13")
+            let result = await service.fetchAPOD(date: "2025-02-12")
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):

@@ -4,7 +4,8 @@ import Kingfisher
 extension UIImageView {
     func setImage(from urlString: String,
                   forceRefresh: Bool = false,
-                  placeholder: UIImage? = nil,
+                  placeholder: UIImage? = UIImage(systemName: "photo")?
+        .withTintColor(.gray, renderingMode: .alwaysOriginal),
                   errorImage: UIImage? = UIImage(systemName: "xmark.octagon.fill")) {
         guard let url = URL(string: urlString) else {
             self.image = errorImage

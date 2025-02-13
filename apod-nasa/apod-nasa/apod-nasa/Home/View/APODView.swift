@@ -198,7 +198,7 @@ final class APODView: UIView {
     private func showImage(_ urlString: String) {
         webView.isHidden = true
         imageView.isHidden = false
-        imageView.setImage(from: urlString, placeholder: UIImage(named: "placeholder"))
+        imageView.setImage(from: urlString)
     }
 
     private func setupConstraints() {

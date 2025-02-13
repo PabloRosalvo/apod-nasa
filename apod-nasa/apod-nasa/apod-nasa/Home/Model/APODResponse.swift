@@ -6,7 +6,7 @@
 //
 import Foundation
 
-public struct APODResponse: Decodable {
+public struct APODResponse: Codable {
     public let title: String
     public let date: String
     public let explanation: String

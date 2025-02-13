@@ -1,24 +1,24 @@
 //
-//  HomeViewModel.swift
+//  APODViewModel.swift
 //  apod-nasa
 //
 //  Created by Pablo Rosalvo de Melo Lopes on 12/02/25.
 //
-
 import Foundation
 import Combine
 import Network
 
 @MainActor
-final class HomeViewModel: HomeViewModelProtocol {
-    
+final class APODViewModel: APODViewModelProtocol {
     let primaryButtonTapped = PassthroughSubject<Void, Never>()
-    let navigationEvent = PassthroughSubject<HomeNavigationEvent, Never>()
+    let navigationEvent = PassthroughSubject<MainTabNavigationEvent, Never>()
+    let favoriteButtonTapped = PassthroughSubject<Void, Never>()
 
     var cancellables = Set<AnyCancellable>()
-    
-    let service: APODServiceProtocol
-    
+    private let service: APODServiceProtocol
+
+    @Published var model: APODResponse?
+    @Published var isFavoriteValue: Bool = false
 
     var titleText: AnyPublisher<String?, Never> {
         $model.map { $0?.title }.eraseToAnyPublisher()
@@ -32,31 +32,32 @@ final class HomeViewModel: HomeViewModelProtocol {
         $model.map { $0?.url }.eraseToAnyPublisher()
     }
 
-    @Published private(set) var model: APODResponse?
+    var isFavorite: AnyPublisher<Bool, Never> {
+        $isFavoriteValue.eraseToAnyPublisher()
+    }
 
     init(service: APODServiceProtocol) {
         self.service = service
+        setupBindings()
     }
 
     func viewWillAppear() {
-        setupBindings()
         fetchAPOD()
     }
     
     func fetchAPOD() {
         Task {
-            let result = await service.fetchAPOD(date: Date().toYYYYMMDD())
+            let result = await service.fetchAPOD(date: "2025-02-13")
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
                     self.model = response
+                    self.isFavoriteValue = FavoritesManager.shared.isFavorite(response)
                 case .failure(let error):
                     print("Erro: \(error.localizedDescription)")
                 }
             }
         }
     }
+    
 }
-
-
-

@@ -1,13 +1,13 @@
 import UIKit
 import Combine
 
-class HomeViewController: UIViewController {
+class APODViewController: UIViewController {
     
-    private let viewModel: HomeViewModelProtocol
-    private lazy var contentView: HomeView = HomeView()
+    private let viewModel: APODViewModelProtocol
+    private lazy var contentView: APODView = APODView()
     private var cancellables = Set<AnyCancellable>()
     
-    init(viewModel: HomeViewModelProtocol) {
+    init(viewModel: APODViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -48,14 +48,28 @@ class HomeViewController: UIViewController {
         viewModel.imageUrlText
             .receive(on: DispatchQueue.main)
             .sink { [weak self] imageUrl in
-                self?.contentView.imageURLText = imageUrl
+                self?.contentView.mediaURLText = imageUrl
             }
             .store(in: &cancellables)
-        
+
+        viewModel.isFavorite
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isFavorite in
+                self?.contentView.updateFavoriteButton(isFavorite: isFavorite)
+            }
+            .store(in: &cancellables)
+
         contentView.actionButtonTapped
             .sink { [weak self] in
                 self?.viewModel.primaryButtonTapped.send(())
             }
             .store(in: &cancellables)
+
+        contentView.favoriteButtonTapped
+            .sink { [weak self] in
+                self?.viewModel.favoriteButtonTapped.send(())
+            }
+            .store(in: &cancellables)
     }
+
 }

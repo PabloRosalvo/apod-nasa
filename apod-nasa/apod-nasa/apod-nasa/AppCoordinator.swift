@@ -12,11 +12,9 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        let homeCoordinator = HomeCoordinator(navigationController: navigationController)
-        childCoordinators.append(homeCoordinator)
-        
-        homeCoordinator.start()
-        
+        let mainTabBarCoordinator = MainTabBarCoordinator(navigationController: navigationController)
+        childCoordinators.append(mainTabBarCoordinator)
+        mainTabBarCoordinator.start()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }

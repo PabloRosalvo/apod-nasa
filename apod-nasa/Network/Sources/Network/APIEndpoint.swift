@@ -18,7 +18,7 @@ public enum APIEndpoint: EndPointType {
     }
     
     public var queryParameters: [String: Any] {
-        var params: [String: Any] = ["api_key": "yZIlJnU5lj3eJmsOJs20oOoynRGhAIxaRz75dvRj"]
+        var params: [String: Any] = [:]
         
         switch self {
         case let .apodByDate(date):

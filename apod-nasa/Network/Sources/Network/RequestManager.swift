@@ -1,12 +1,12 @@
 import Foundation
 
-public protocol RequestManagerProtocol {
+public protocol RequestManagerProtocol: Sendable {
     func request<T: Decodable>(
         endpoint: EndPointType
     ) async throws -> T
 }
 
-public struct RequestManager: RequestManagerProtocol {
+public struct RequestManager: RequestManagerProtocol, Sendable {
     let session: URLSession
     private let apiKey: String
 

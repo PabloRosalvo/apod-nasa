@@ -1,15 +1,15 @@
-//
-//  FavoriteCell.swift
-//  apod-nasa
-//
-//  Created by Pablo Rosalvo de Melo Lopes on 13/02/25.
-//
-
 import UIKit
 import Kingfisher
 import WebKit
 
-final class FavoriteCell: UITableViewCell, Reusable {
+final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNavigationDelegate {
+    
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     private let mediaImageView: UIImageView = {
         let imageView = UIImageView()
@@ -17,14 +17,16 @@ final class FavoriteCell: UITableViewCell, Reusable {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
         return imageView
     }()
     
-    private let webView: WKWebView = {
+    private lazy var webView: WKWebView = {
         let webView = WKWebView()
         webView.isHidden = true
         webView.layer.cornerRadius = 10
         webView.clipsToBounds = true
+        webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
@@ -44,6 +46,7 @@ final class FavoriteCell: UITableViewCell, Reusable {
         setupViews()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,7 +56,7 @@ final class FavoriteCell: UITableViewCell, Reusable {
         handleMediaLoading(urlString: model.mediaURL ?? "")
     }
     
-    private func setupViews() {
+    func configureViews() {
         selectionStyle = .none
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 12
@@ -62,11 +65,16 @@ final class FavoriteCell: UITableViewCell, Reusable {
         contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
         contentView.layer.shadowRadius = 4
         contentView.clipsToBounds = false
-        
+    }
+    
+    func setupViewHierarchy() {
         contentView.addSubview(mediaImageView)
         contentView.addSubview(webView)
+        contentView.addSubview(activityIndicator)
         contentView.addSubview(titleLabel)
-        
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             mediaImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             mediaImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -77,6 +85,9 @@ final class FavoriteCell: UITableViewCell, Reusable {
             webView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             webView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             webView.heightAnchor.constraint(equalToConstant: 200),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: mediaImageView.centerYAnchor),
 
             titleLabel.topAnchor.constraint(equalTo: mediaImageView.bottomAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -93,13 +104,33 @@ final class FavoriteCell: UITableViewCell, Reusable {
     private func handleMediaLoading(urlString: String) {
         webView.isHidden = true
         mediaImageView.isHidden = true
+        activityIndicator.startAnimating()
+        
         if urlString.contains("youtube.com/embed/") {
+            webView.isHidden = true
+            guard let url = URL(string: urlString) else {
+                activityIndicator.stopAnimating()
+                return
+            }
             webView.isHidden = false
-            guard let url = URL(string: urlString) else { return }
             webView.load(URLRequest(url: url))
         } else {
-            mediaImageView.isHidden = false
-            mediaImageView.setImage(from: urlString)
+            mediaImageView.isHidden = true
+            mediaImageView.kf.setImage(with: URL(string: urlString),
+                                       placeholder: nil,
+                                       completionHandler: { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.mediaImageView.isHidden = false
+                    self?.activityIndicator.stopAnimating()
+                }
+            })
+        }
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation?) {
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            self.webView.isHidden = false
         }
     }
 }

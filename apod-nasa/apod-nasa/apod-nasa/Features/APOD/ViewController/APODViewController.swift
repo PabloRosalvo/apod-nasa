@@ -7,7 +7,6 @@ class APODViewController: UIViewController {
     
     private lazy var contentView: APODView = {
         let contentView = APODView()
-        contentView.alpha = 0
         return contentView
     }()
     
@@ -18,49 +17,33 @@ class APODViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingView.startLoading(in: self.contentView)
+        title = "APOD"
         setupBindings()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.viewWillAppear()
     }
     
     override func loadView() {
         self.view = contentView
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.viewWillAppear()
+    }
+    
     private func setupBindings() {
-        viewModel.titleText
+        viewModel.apod
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] title in
-                self?.contentView.alpha = 1
-                LoadingView.stopLoading()
-                self?.contentView.titleText = title
+            .sink { [weak self] apod in
+                self?.contentView.apod = apod
             }
             .store(in: &cancellables)
-
-        viewModel.descriptionText
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] description in
-                self?.contentView.descriptionText = description
-            }
-            .store(in: &cancellables)
-
-        viewModel.imageUrlText
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] imageUrl in
-                self?.contentView.mediaURLText = imageUrl
-            }
-            .store(in: &cancellables)
-
+        
         viewModel.isFavorite
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isFavorite in
@@ -73,6 +56,32 @@ class APODViewController: UIViewController {
                 self?.viewModel.favoriteButtonTapped.send(())
             }
             .store(in: &cancellables)
+        
+        viewModel.isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { isLoading in
+                if isLoading {
+                    LoadingView.startLoading()
+                } else {
+                    LoadingView.stopLoading()
+                }
+            }
+            .store(in: &cancellables)
+        
+        viewModel.isError
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isError in
+                guard let self = self, isError else { return }
+                
+                let errorModal = ErrorModalView(
+                    message: "Falha ao buscar os dados.",
+                    retryAction: {
+                        self.viewModel.viewWillAppear()  
+                    }
+                )
+                errorModal.show(in: self.view)
+            }
+            .store(in: &cancellables)
     }
-
+    
 }

@@ -1,9 +1,3 @@
-//
-//  FavoritesViewController.swift
-//  apod-nasa
-//
-//  Created by Pablo Rosalvo de Melo Lopes on 13/02/25.
-//
 import UIKit
 import Combine
 
@@ -18,6 +12,7 @@ final class FavoritesViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

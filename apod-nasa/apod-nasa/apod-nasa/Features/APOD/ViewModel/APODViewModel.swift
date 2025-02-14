@@ -1,15 +1,10 @@
-//
-//  APODViewModel.swift
-//  apod-nasa
-//
-//  Created by Pablo Rosalvo de Melo Lopes on 12/02/25.
-//
 import Foundation
 import Combine
 import Network
 
 @MainActor
 final class APODViewModel: APODViewModelProtocol {
+    
     let primaryButtonTapped = PassthroughSubject<Void, Never>()
     let navigationEvent = PassthroughSubject<MainTabNavigationEvent, Never>()
     let favoriteButtonTapped = PassthroughSubject<Void, Never>()
@@ -17,25 +12,27 @@ final class APODViewModel: APODViewModelProtocol {
     var cancellables = Set<AnyCancellable>()
     private let service: APODServiceProtocol
 
-    @Published var model: APODResponse?
-    @Published var isFavoriteValue: Bool = false
+    @Published private var model: APODResponse?
+    @Published private var isFavoriteValue: Bool = false
+    @Published private var isLoadingState: Bool = false
+    @Published private var isErrorAPI: Bool = false
 
-    var titleText: AnyPublisher<String?, Never> {
-        $model.map { $0?.title }.eraseToAnyPublisher()
+    var apod: AnyPublisher<APODResponse?, Never> {
+        $model.eraseToAnyPublisher()
     }
     
-    var descriptionText: AnyPublisher<String?, Never> {
-        $model.map { $0?.explanation }.eraseToAnyPublisher()
-    }
-    
-    var imageUrlText: AnyPublisher<String?, Never> {
-        $model.map { $0?.url }.eraseToAnyPublisher()
-    }
-
     var isFavorite: AnyPublisher<Bool, Never> {
         $isFavoriteValue.eraseToAnyPublisher()
     }
-
+    
+    var isLoading: AnyPublisher<Bool, Never> {
+        $isLoadingState.eraseToAnyPublisher()
+    }
+    
+    var isError: AnyPublisher<Bool, Never> {
+        $isErrorAPI.eraseToAnyPublisher()
+    }
+    
     init(service: APODServiceProtocol) {
         self.service = service
         setupBindings()
@@ -46,18 +43,36 @@ final class APODViewModel: APODViewModelProtocol {
     }
     
     func fetchAPOD() {
+        isLoadingState = true
         Task {
-            let result = await service.fetchAPOD(date: "2025-02-12")
+            let result = await service.fetchAPOD(date: Date().toYYYYMMDD())
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
                     self.model = response
                     self.isFavoriteValue = FavoritesManager.shared.isFavorite(response)
-                case .failure(let error):
-                    print("Erro: \(error.localizedDescription)")
+                case .failure(_):
+                    self.isErrorAPI = true
                 }
+                self.isLoadingState = false
             }
         }
     }
     
+}
+
+extension APODViewModel {
+    func setupBindings() {
+        favoriteButtonTapped
+            .sink { [weak self] in
+                guard let self = self, let apod = self.model else { return }
+                if self.isFavoriteValue {
+                    FavoritesManager.shared.removeFavorite(apod)
+                } else {
+                    FavoritesManager.shared.saveFavorite(apod)
+                }
+                self.isFavoriteValue.toggle()
+            }
+            .store(in: &cancellables)
+    }
 }

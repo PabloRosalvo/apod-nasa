@@ -3,25 +3,20 @@ import Combine
 import Kingfisher
 import WebKit
 
-final class APODView: UIView {
+final class APODView: UIView, WKNavigationDelegate, ViewConfiguration {
     
-    @Published var titleText: String?
-    @Published var descriptionText: String?
-    @Published var mediaURLText: String?
-    
+    @Published var apod: APODResponse?
+
     let favoriteButtonTapped = PassthroughSubject<Void, Never>()
 
     private var cancellables = Set<AnyCancellable>()
 
-    private lazy var gradientLayer: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        gradient.colors = [
-            UIColor.systemGray6.cgColor,
-            UIColor.systemGray4.cgColor
-        ]
-        gradient.startPoint = CGPoint(x: 0.5, y: 0)
-        gradient.endPoint = CGPoint(x: 0.5, y: 1)
-        return gradient
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.color = .gray
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
 
     private lazy var scrollView: UIScrollView = {
@@ -44,6 +39,7 @@ final class APODView: UIView {
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.systemGray3.cgColor
         view.clipsToBounds = true
+        view.isHidden = true
         return view
     }()
     
@@ -55,12 +51,14 @@ final class APODView: UIView {
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.systemGray3.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
         return imageView
     }()
     
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
         webView.isHidden = true
+        webView.navigationDelegate = self
         webView.layer.cornerRadius = 16
         webView.layer.borderWidth = 1
         webView.layer.borderColor = UIColor.systemGray3.cgColor
@@ -88,10 +86,10 @@ final class APODView: UIView {
 
     private(set) lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "star"), for: .normal)
         button.tintColor = .gray
         button.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
         return button
     }()
 
@@ -116,41 +114,32 @@ final class APODView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        gradientLayer.frame = bounds
-    }
 
-    private func setupViews() {
-        layer.insertSublayer(gradientLayer, at: 0)
-
+    func setupViews() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(stackView)
         mediaContainerView.addSubview(imageView)
         mediaContainerView.addSubview(webView)
+        mediaContainerView.addSubview(activityIndicator)
 
         setupConstraints()
     }
     
     private func setupBindings() {
-        $titleText
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.text, on: titleLabel)
-            .store(in: &cancellables)
-
-        $descriptionText
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.text, on: descriptionLabel)
-            .store(in: &cancellables)
-
-        $mediaURLText
-            .compactMap { $0 }
-            .sink { [weak self] urlString in
-                self?.handleMediaLoading(urlString)
+        $apod
+            .compactMap { $0 }  
+            .sink { [weak self] apod in
+                self?.updateUI(apod)
             }
             .store(in: &cancellables)
+
+    }
+    
+    func updateUI(_ model: APODResponse) {
+        titleLabel.text = model.title
+        descriptionLabel.text = model.explanation
+        handleMediaLoading(model.url ?? "")
     }
     
     @objc private func favoriteTapped() {
@@ -173,18 +162,30 @@ final class APODView: UIView {
 
     private func showVideo(_ urlString: String) {
         guard let url = URL(string: urlString) else { return }
-        webView.isHidden = false
+        webView.isHidden = true
         imageView.isHidden = true
+        activityIndicator.startAnimating()
         webView.load(URLRequest(url: url))
     }
 
     private func showImage(_ urlString: String) {
         webView.isHidden = true
         imageView.isHidden = false
+        activityIndicator.stopAnimating()
         imageView.setImage(from: urlString)
+        mediaContainerView.isHidden = false
+        favoriteButton.isHidden = false
+
     }
 
-    private func setupConstraints() {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation?) {
+        activityIndicator.stopAnimating()
+        webView.isHidden = false
+        mediaContainerView.isHidden = false
+        favoriteButton.isHidden = false
+    }
+
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -210,6 +211,9 @@ final class APODView: UIView {
 
             webView.widthAnchor.constraint(equalTo: mediaContainerView.widthAnchor),
             webView.heightAnchor.constraint(equalTo: mediaContainerView.heightAnchor),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: mediaContainerView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: mediaContainerView.centerYAnchor)
         ])
     }
 }

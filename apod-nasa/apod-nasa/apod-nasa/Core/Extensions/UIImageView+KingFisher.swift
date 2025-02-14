@@ -4,29 +4,25 @@ import Kingfisher
 extension UIImageView {
     
     func setImage(from urlString: String,
-                  forceRefresh: Bool = false,
-                  placeholder: UIImage? = nil,
-                  errorImage: UIImage? = UIImage(systemName: "xmark.octagon.fill")) {
-        
+                  forceRefresh: Bool = false) {
         self.kf.indicatorType = .activity
-        
+        self.backgroundColor = .clear
         guard let url = URL(string: urlString) else {
-            self.image = errorImage
+            self.image = nil
             return
         }
-        
         let options: KingfisherOptionsInfo = forceRefresh ? [.forceRefresh] : []
         
         self.kf.setImage(
             with: url,
-            placeholder: placeholder,
+            placeholder: nil,
             options: options
         ) { result in
             switch result {
             case .success:
                 break
             case .failure:
-                self.image = errorImage
+                self.image = nil
             }
         }
     }

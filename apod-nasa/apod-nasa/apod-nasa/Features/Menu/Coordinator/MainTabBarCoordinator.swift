@@ -60,8 +60,8 @@ final class MainTabBarCoordinator: Coordinator {
     }
     
     private func createSearchViewController() -> UIViewController {
-        let viewModel = SearchAPODViewModel(service: APODService())
-        let searchViewController = SearchAPODViewController(viewModel: viewModel)
+        let viewModel = APODSearchViewModel(service: APODService())
+        let searchViewController = APODSearchViewController(viewModel: viewModel)
         searchViewController.tabBarItem = UITabBarItem(
             title: "Buscar",
             image: UIImage(systemName: "magnifyingglass"),

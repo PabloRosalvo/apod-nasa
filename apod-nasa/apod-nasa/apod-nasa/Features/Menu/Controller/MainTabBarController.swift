@@ -16,6 +16,7 @@ final class MainTabBarController: UITabBarController, UITabBarControllerDelegate
         self.viewControllers = viewControllers.map { UINavigationController(rootViewController: $0) }
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

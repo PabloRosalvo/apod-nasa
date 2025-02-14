@@ -1,9 +1,3 @@
-//
-//  APODResponse.swift
-//  apod-nasa
-//
-//  Created by Pablo Rosalvo de Melo Lopes on 13/02/25.
-//
 import Foundation
 
 public struct APODResponse: Codable {

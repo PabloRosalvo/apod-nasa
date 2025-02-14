@@ -86,16 +86,17 @@ final class ErrorModalView: UIView {
             modalView.centerXAnchor.constraint(equalTo: centerXAnchor),
             modalView.centerYAnchor.constraint(equalTo: centerYAnchor),
             modalView.widthAnchor.constraint(equalToConstant: 300),
-            
+            modalView.heightAnchor.constraint(equalToConstant: 300),
+
             titleLabel.topAnchor.constraint(equalTo: modalView.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: modalView.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: modalView.trailingAnchor, constant: -16),
             
-            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 50),
             messageLabel.leadingAnchor.constraint(equalTo: modalView.leadingAnchor, constant: 16),
             messageLabel.trailingAnchor.constraint(equalTo: modalView.trailingAnchor, constant: -16),
             
-            retryButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 20),
+            retryButton.topAnchor.constraint(equalTo: modalView.bottomAnchor, constant: -100),
             retryButton.leadingAnchor.constraint(equalTo: modalView.leadingAnchor, constant: 16),
             retryButton.trailingAnchor.constraint(equalTo: modalView.trailingAnchor, constant: -16),
             retryButton.heightAnchor.constraint(equalToConstant: 44),
@@ -103,7 +104,6 @@ final class ErrorModalView: UIView {
             closeButton.topAnchor.constraint(equalTo: modalView.topAnchor, constant: 10),
             closeButton.trailingAnchor.constraint(equalTo: modalView.trailingAnchor, constant: -10),
             
-            modalView.bottomAnchor.constraint(equalTo: retryButton.bottomAnchor, constant: 20)
         ])
     }
     

@@ -9,6 +9,5 @@ protocol APODViewModelProtocol {
     var favoriteButtonTapped: PassthroughSubject<Void, Never> { get }
     var isLoading: AnyPublisher<Bool, Never> { get }
     var isError: AnyPublisher<Bool, Never> { get }
-
     func viewWillAppear()
 }

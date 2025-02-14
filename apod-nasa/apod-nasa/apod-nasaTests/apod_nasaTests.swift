@@ -6,6 +6,9 @@
 //
 
 import XCTest
+import Nimble 
+import Quick
+
 @testable import apod_nasa
 
 final class apod_nasaTests: XCTestCase {

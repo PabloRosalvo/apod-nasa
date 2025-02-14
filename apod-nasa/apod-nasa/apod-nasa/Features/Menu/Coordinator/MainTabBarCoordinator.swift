@@ -1,6 +1,6 @@
 import UIKit
 import Combine
-
+import Network
 @MainActor
 final class MainTabBarCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator?
@@ -27,7 +27,8 @@ final class MainTabBarCoordinator: Coordinator {
     }
     
     private func setupTabs() -> [UIViewController]{
-        let homeViewController = createHomeViewController()
+        let service = APODService(requestManager: RequestManager())
+        let homeViewController = createHomeViewController(service: service )
         let favoritesViewController = createFavoritesViewController()
         let searchAPODViewController = createSearchViewController()
         
@@ -36,10 +37,9 @@ final class MainTabBarCoordinator: Coordinator {
                 searchAPODViewController]
     }
 
-    private func createHomeViewController() -> UIViewController {
-        let viewModel = APODViewModel(service: APODService())
+    private func createHomeViewController(service: APODServiceProtocol) -> UIViewController {
+        let viewModel = APODViewModel(service: service)
         let homeViewController = APODViewController(viewModel: viewModel)
-
         homeViewController.tabBarItem = UITabBarItem(
             title: "Home",
             image: UIImage(systemName: "house.fill"),
@@ -60,7 +60,7 @@ final class MainTabBarCoordinator: Coordinator {
     }
     
     private func createSearchViewController() -> UIViewController {
-        let viewModel = APODSearchViewModel(service: APODService())
+        let viewModel = APODSearchViewModel(service: APODService(requestManager: RequestManager()))
         let searchViewController = APODSearchViewController(viewModel: viewModel)
         searchViewController.tabBarItem = UITabBarItem(
             title: "Buscar",

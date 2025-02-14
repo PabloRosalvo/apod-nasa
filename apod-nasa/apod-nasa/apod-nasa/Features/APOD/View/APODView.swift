@@ -172,12 +172,15 @@ final class APODView: UIView, WKNavigationDelegate, ViewConfiguration {
         webView.isHidden = true
         imageView.isHidden = false
         activityIndicator.stopAnimating()
-        imageView.setImage(from: urlString)
         mediaContainerView.isHidden = false
         favoriteButton.isHidden = false
-
+        if urlString.contains("https") {
+            imageView.setImage(from: urlString)
+        } else {
+            imageView.image = UIImage(named: urlString)
+        }
     }
-
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation?) {
         activityIndicator.stopAnimating()
         webView.isHidden = false

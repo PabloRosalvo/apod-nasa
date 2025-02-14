@@ -33,7 +33,7 @@ final class APODViewModel: APODViewModelProtocol {
         $isErrorAPI.eraseToAnyPublisher()
     }
     
-    init(service: APODServiceProtocol) {
+   public init(service: APODServiceProtocol) {
         self.service = service
         setupBindings()
     }

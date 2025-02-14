@@ -115,15 +115,21 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
             webView.isHidden = false
             webView.load(URLRequest(url: url))
         } else {
-            mediaImageView.isHidden = true
-            mediaImageView.kf.setImage(with: URL(string: urlString),
-                                       placeholder: nil,
-                                       completionHandler: { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.mediaImageView.isHidden = false
-                    self?.activityIndicator.stopAnimating()
-                }
-            })
+            if urlString.contains("https") {
+                mediaImageView.isHidden = true
+                mediaImageView.kf.setImage(with: URL(string: urlString),
+                                           placeholder: nil,
+                                           completionHandler: { [weak self] _ in
+                    DispatchQueue.main.async {
+                        self?.mediaImageView.isHidden = false
+                        self?.activityIndicator.stopAnimating()
+                    }
+                })
+            } else {
+                mediaImageView.image = UIImage(named: "image_teste")
+                self.mediaImageView.isHidden = false
+                self.activityIndicator.stopAnimating()
+            }
         }
     }
     

@@ -14,8 +14,8 @@ struct FavoritesListModel {
 }
 
 final class FavoritesViewModel: FavoritesViewModelProtocol {
-    var favoritesPublisher: Published<[FavoritesListModel]>.Publisher {
-        $favorites
+    var favoritesPublisher: AnyPublisher<[FavoritesListModel], Never> {
+        $favorites.eraseToAnyPublisher()
     }
         
     @Published private var favorites: [FavoritesListModel] = []

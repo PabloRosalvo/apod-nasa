@@ -8,7 +8,7 @@ protocol APODServiceProtocol {
 final class APODService: APODServiceProtocol, Sendable {
     private let requestManager: RequestManagerProtocol & Sendable
 
-    init(requestManager: RequestManagerProtocol = RequestManager()) {
+    init(requestManager: RequestManagerProtocol) {
         self.requestManager = requestManager
     }
 

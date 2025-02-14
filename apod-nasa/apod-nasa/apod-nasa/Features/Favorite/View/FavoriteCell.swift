@@ -95,7 +95,8 @@ final class FavoriteCell: UITableViewCell, Reusable {
         mediaImageView.isHidden = true
         if urlString.contains("youtube.com/embed/") {
             webView.isHidden = false
-            webView.load(URLRequest(url: URL(string: urlString)!))
+            guard let url = URL(string: urlString) else { return }
+            webView.load(URLRequest(url: url))
         } else {
             mediaImageView.isHidden = false
             mediaImageView.setImage(from: urlString)

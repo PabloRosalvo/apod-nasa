@@ -58,13 +58,7 @@ class APODViewController: UIViewController {
                 self?.contentView.updateFavoriteButton(isFavorite: isFavorite)
             }
             .store(in: &cancellables)
-
-        contentView.actionButtonTapped
-            .sink { [weak self] in
-                self?.viewModel.primaryButtonTapped.send(())
-            }
-            .store(in: &cancellables)
-
+        
         contentView.favoriteButtonTapped
             .sink { [weak self] in
                 self?.viewModel.favoriteButtonTapped.send(())

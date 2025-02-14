@@ -9,7 +9,6 @@ final class APODView: UIView {
     @Published var descriptionText: String?
     @Published var mediaURLText: String?
     
-    let actionButtonTapped = PassthroughSubject<Void, Never>()
     let favoriteButtonTapped = PassthroughSubject<Void, Never>()
 
     private var cancellables = Set<AnyCancellable>()
@@ -87,17 +86,6 @@ final class APODView: UIView {
         return label
     }()
 
-    private(set) lazy var actionButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("See More information", for: .normal)
-        button.backgroundColor = UIColor.systemBlue
-        button.layer.cornerRadius = 12
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.lightGray, for: .highlighted)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     private(set) lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "star"), for: .normal)
@@ -109,7 +97,7 @@ final class APODView: UIView {
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
-            mediaContainerView, titleLabel, descriptionLabel, actionButton, favoriteButton
+            mediaContainerView, titleLabel, descriptionLabel, favoriteButton
         ])
         stackView.axis = .vertical
         stackView.spacing = 20
@@ -163,11 +151,6 @@ final class APODView: UIView {
                 self?.handleMediaLoading(urlString)
             }
             .store(in: &cancellables)
-
-        actionButton
-            .addAction(UIAction { [weak self] _ in
-                self?.actionButtonTapped.send(())
-            }, for: .touchUpInside)
     }
     
     @objc private func favoriteTapped() {
@@ -227,9 +210,6 @@ final class APODView: UIView {
 
             webView.widthAnchor.constraint(equalTo: mediaContainerView.widthAnchor),
             webView.heightAnchor.constraint(equalTo: mediaContainerView.heightAnchor),
-
-            actionButton.widthAnchor.constraint(equalToConstant: 250),
-            actionButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
 }

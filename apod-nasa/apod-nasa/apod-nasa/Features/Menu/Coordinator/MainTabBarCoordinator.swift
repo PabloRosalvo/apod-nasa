@@ -29,11 +29,15 @@ final class MainTabBarCoordinator: Coordinator {
     private func setupTabs() -> [UIViewController]{
         let homeViewController = createHomeViewController()
         let favoritesViewController = createFavoritesViewController()
-        return [homeViewController, favoritesViewController]
+        let searchAPODViewController = createSearchViewController()
+        
+        return [homeViewController,
+                favoritesViewController,
+                searchAPODViewController]
     }
 
     private func createHomeViewController() -> UIViewController {
-        let viewModel = APODViewModel(service: HomeAPODService())
+        let viewModel = APODViewModel(service: APODService())
         let homeViewController = APODViewController(viewModel: viewModel)
 
         homeViewController.tabBarItem = UITabBarItem(
@@ -54,7 +58,18 @@ final class MainTabBarCoordinator: Coordinator {
         )
         return favoritesViewController
     }
-
+    
+    private func createSearchViewController() -> UIViewController {
+        let viewModel = SearchAPODViewModel(service: APODService())
+        let searchViewController = SearchAPODViewController(viewModel: viewModel)
+        searchViewController.tabBarItem = UITabBarItem(
+            title: "Buscar",
+            image: UIImage(systemName: "magnifyingglass"),
+            tag: 2
+        )
+        return searchViewController
+    }
+    
     private func bindNavigation(for viewModel: APODViewModel) {
         viewModel.navigationEvent
             .sink { [weak self] event in
@@ -65,8 +80,6 @@ final class MainTabBarCoordinator: Coordinator {
 
     private func handleNavigation(_ event: MainTabNavigationEvent) {
         switch event {
-        case .goToInfoAPOD:
-            showInfoAPODScreen()
         case .favoriteSelected(viewControler: let viewControler):
             if let homeVC = viewControler as? APODViewController {
                 homeVC.viewWillAppear(true)
@@ -77,7 +90,4 @@ final class MainTabBarCoordinator: Coordinator {
         }
     }
 
-    private func showInfoAPODScreen() {
-        print("Navegar para detalhes do APOD")
-    }
 }

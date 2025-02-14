@@ -11,7 +11,7 @@ protocol APODServiceProtocol {
     func fetchAPOD(date: String) async -> Result<APODResponse>
 }
 
-final class HomeAPODService: APODServiceProtocol, Sendable {
+final class APODService: APODServiceProtocol, Sendable {
     private let requestManager: RequestManagerProtocol
 
     init(requestManager: RequestManagerProtocol = RequestManager()) {

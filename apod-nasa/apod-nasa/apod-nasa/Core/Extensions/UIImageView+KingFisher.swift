@@ -2,17 +2,21 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
+    
     func setImage(from urlString: String,
                   forceRefresh: Bool = false,
-                  placeholder: UIImage? = UIImage(systemName: "photo")?
-        .withTintColor(.gray, renderingMode: .alwaysOriginal),
+                  placeholder: UIImage? = nil,
                   errorImage: UIImage? = UIImage(systemName: "xmark.octagon.fill")) {
+        
+        self.kf.indicatorType = .activity
+        
         guard let url = URL(string: urlString) else {
             self.image = errorImage
             return
         }
         
         let options: KingfisherOptionsInfo = forceRefresh ? [.forceRefresh] : []
+        
         self.kf.setImage(
             with: url,
             placeholder: placeholder,

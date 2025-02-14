@@ -9,10 +9,15 @@ O APOD NASA é um aplicativo móvel desenvolvido para exibir a Imagem Astronômi
 📷 Exibição da imagem/vídeo do dia
 
 🔍 Busca por datas passadas
+
 ⭐ Favoritar imagens e vídeos para acesso rápido
+
 ⚡ Interface responsiva, priorizando carregamento rápido
+
 🚨 Exibição de modais de erro para falhas na API
+
 🔄 Atualização automática ao abrir o aplicativo
+
 🛠 Módulo de networking via SPM para fácil reutilização
 
 Tecnologias Utilizadas

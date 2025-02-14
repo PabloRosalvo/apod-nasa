@@ -71,3 +71,13 @@ O APIEndpoint contém os endpoints necessários para buscar infos da NASA.
 1. git clone https://github.com/PabloRosalvo/apod-nasa.git
 2. O projeto está em SPM, pode ir em File -> Packages - Reset
    
+
+
+
+https://github.com/user-attachments/assets/d2fe983a-9d81-4b36-b832-863134769ec2
+
+
+https://github.com/user-attachments/assets/e1e79f32-44a1-47bc-8efc-92c1096de305
+
+
+

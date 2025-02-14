@@ -79,11 +79,21 @@ O APIEndpoint contém os endpoints necessários para buscar infos da NASA.
    
 
 
+### Screenshots e Demonstração
+
+Teste Snapshot
+
+<img width="1512" alt="Captura de Tela 2025-02-14 às 14 59 15" src="https://github.com/user-attachments/assets/3f198dff-5803-4b3f-93aa-2c191fb9a9e9" />
+
+<img width="1512" alt="Captura de Tela 2025-02-14 às 15 00 00" src="https://github.com/user-attachments/assets/f791b660-df7d-438c-bd36-f0a3d59ac667" />
 
 https://github.com/user-attachments/assets/d2fe983a-9d81-4b36-b832-863134769ec2
 
 
 https://github.com/user-attachments/assets/e1e79f32-44a1-47bc-8efc-92c1096de305
+
+
+https://github.com/user-attachments/assets/0f79927f-7e23-4f3d-825a-175aba8d3c6c
 
 
 

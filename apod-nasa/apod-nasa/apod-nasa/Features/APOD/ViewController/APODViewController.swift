@@ -4,7 +4,13 @@ import Combine
 class APODViewController: UIViewController {
     
     private let viewModel: APODViewModelProtocol
-    private lazy var contentView: APODView = APODView()
+    
+    private lazy var contentView: APODView = {
+        let contentView = APODView()
+        contentView.alpha = 0
+        return contentView
+    }()
+    
     private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: APODViewModelProtocol) {
@@ -18,6 +24,7 @@ class APODViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        LoadingView.startLoading(in: self.contentView)
         setupBindings()
     }
     
@@ -34,6 +41,8 @@ class APODViewController: UIViewController {
         viewModel.titleText
             .receive(on: DispatchQueue.main)
             .sink { [weak self] title in
+                self?.contentView.alpha = 1
+                LoadingView.stopLoading()
                 self?.contentView.titleText = title
             }
             .store(in: &cancellables)

@@ -35,7 +35,7 @@ Swift Package Manager (SPM) para gerenciamento do módulo de networking
 
 A arquitetura MVVM-C reativa com Combine garante um código modular e escalável, facilitando a manutenção e testabilidade. A separação de responsabilidades entre Model, ViewModel e Coordinator, combinada com bindings reativos, permite que a interface reaja automaticamente às mudanças de estado, melhorando a experiência do usuário.
 
-Cobertura de Testes: O projeto possui quase 100% de cobertura de testes nas classes principais, garantindo alta qualidade e testabilidade.
+Cobertura de Testes: O projeto possui cobertura de testes nas classes principais, garantindo alta qualidade e testabilidade.
 
 Arquitetura Organizada: O projeto segue uma arquitetura MVVM-C bem definida, com clara separação de responsabilidades, facilitando a manutenção e escalabilidade.
 

@@ -1,11 +1,9 @@
 # APOD NASA
 
 ## Descrição
+O APOD NASA é um aplicativo móvel que exibe a Imagem Astronômica do Dia (Astronomy Picture of the Day - APOD) da NASA. Os usuários podem buscar imagens e vídeos astronômicos por data, visualizar detalhes e salvar seus favoritos. O projeto foi desenvolvido utilizando Combine, trazendo uma abordagem reativa para atualização da UI de forma fluida e desacoplada.
 
-📌 Importante: Este projeto foi implementado em Combine no UIKit para aprofundar meus conhecimentos em programação reativa. No futuro, pretendo migrá-lo para SwiftUI, aproveitando os benefícios da reatividade nativa da plataforma.
-
-Graças ao uso de Combine, essa migração se torna ainda mais simples e natural, pois grande parte da lógica reativa implementada na ViewModel pode ser reaproveitada no SwiftUI, eliminando a necessidade de mudanças estruturais significativas. Essa abordagem reforça minha capacidade de desenvolver soluções reativas tanto no UIKit quanto no SwiftUI, garantindo flexibilidade, escalabilidade e um código ainda mais enxuto e eficiente
-
+📌 Importante: Este projeto foi implementado em Combine no UIKit para aprofundar meus conhecimentos em programação reativa. No futuro, pretendo migrá-lo para SwiftUI, aproveitando os benefícios da reatividade nativa da plataforma. Graças ao uso de Combine, essa migração se torna ainda mais simples e natural, pois grande parte da lógica reativa implementada na ViewModel pode ser reaproveitada no SwiftUI, eliminando a necessidade de mudanças estruturais significativas. Essa abordagem reforça minha capacidade de desenvolver soluções reativas tanto no UIKit quanto no SwiftUI, garantindo flexibilidade, escalabilidade e um código ainda mais enxuto e eficiente
 
 ## Funcionalidades
 

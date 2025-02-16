@@ -64,6 +64,7 @@ O APIEndpoint contém os endpoints necessários para buscar infos da NASA.
 O UIKit não foi projetado para ser totalmente reativo como o SwiftUI, mas com o uso de Combine, conseguimos fazer com que as Views do UIKit sejam atualizadas automaticamente sempre que os dados na ViewModel mudam. Essa abordagem melhora a separação de responsabilidades, evita atualizações manuais da UI, e torna o código mais limpo, desacoplado e reativo.
 
 📌 Como isso funciona?
+
 A ViewModel expõe estados observáveis com @Published.
 A ViewController se inscreve (sink) nos Publishers da ViewModel.
 Quando os valores mudam na ViewModel, a View recebe automaticamente as atualizações.

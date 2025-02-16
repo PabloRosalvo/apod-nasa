@@ -1,25 +1,12 @@
-//
-//  ViewModel.swift
-//  apod-nasa
-//
-//  Created by Pablo Rosalvo de Melo Lopes on 13/02/25.
-//
-
 import Foundation
 import Combine
 
-struct FavoritesListModel {
-    let title: String
-    let mediaURL: String?
-}
-
+@MainActor
 final class FavoritesViewModel: FavoritesViewModelProtocol {
-    var favoritesPublisher: AnyPublisher<[FavoritesListModel], Never> {
-        $favorites.eraseToAnyPublisher()
-    }
-        
+    
     @Published private var favorites: [FavoritesListModel] = []
- 
+    var favoritesPublisher: Published<[FavoritesListModel]>.Publisher { $favorites }
+    
     func getFavorites() -> [FavoritesListModel] {
         return favorites
     }

@@ -9,31 +9,20 @@ final class APODViewModel: APODViewModelProtocol {
     let navigationEvent = PassthroughSubject<MainTabNavigationEvent, Never>()
     let favoriteButtonTapped = PassthroughSubject<Void, Never>()
 
-    var cancellables = Set<AnyCancellable>()
     private let service: APODServiceProtocol
+    private var cancellables = Set<AnyCancellable>()
 
     @Published private var model: APODResponse?
     @Published private var isFavoriteValue: Bool = false
     @Published private var isLoadingState: Bool = false
     @Published private var isErrorAPI: Bool = false
 
-    var apod: AnyPublisher<APODResponse?, Never> {
-        $model.eraseToAnyPublisher()
-    }
-    
-    var isFavorite: AnyPublisher<Bool, Never> {
-        $isFavoriteValue.eraseToAnyPublisher()
-    }
-    
-    var isLoading: AnyPublisher<Bool, Never> {
-        $isLoadingState.eraseToAnyPublisher()
-    }
-    
-    var isError: AnyPublisher<Bool, Never> {
-        $isErrorAPI.eraseToAnyPublisher()
-    }
-    
-   public init(service: APODServiceProtocol) {
+    var apod: Published<APODResponse?>.Publisher { $model }
+    var isFavorite: Published<Bool>.Publisher { $isFavoriteValue }
+    var isLoading: Published<Bool>.Publisher { $isLoadingState }
+    var isError: Published<Bool>.Publisher { $isErrorAPI }
+
+    init(service: APODServiceProtocol) {
         self.service = service
         setupBindings()
     }
@@ -58,7 +47,6 @@ final class APODViewModel: APODViewModelProtocol {
             }
         }
     }
-    
 }
 
 extension APODViewModel {

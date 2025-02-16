@@ -4,18 +4,12 @@ import Combine
 final class APODSearchViewModel: APODSearchViewModelProtocol {
     
     private let service: APODServiceProtocol
-    private var cancellables = Set<AnyCancellable>()
     
     @Published private var isErrorAPI: (isError: Bool, date: String) = (false, "")
     @Published private var apod: APODResponse?
 
-    var apodPublisher: AnyPublisher<APODResponse?, Never> {
-        $apod.eraseToAnyPublisher()
-    }
-    
-    var isError: AnyPublisher<(isError: Bool, date: String), Never> {
-        $isErrorAPI.eraseToAnyPublisher()
-    }
+    var apodPublisher: Published<APODResponse?>.Publisher { $apod }
+    var isError: Published<(isError: Bool, date: String)>.Publisher { $isErrorAPI }
     
     init(service: APODServiceProtocol) {
         self.service = service
@@ -36,4 +30,3 @@ final class APODSearchViewModel: APODSearchViewModelProtocol {
         }
     }
 }
-

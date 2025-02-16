@@ -3,7 +3,7 @@ import Foundation
 
 @MainActor
 protocol APODSearchViewModelProtocol {
-    var apodPublisher: AnyPublisher<APODResponse?, Never> { get }
+    var apodPublisher: Published<APODResponse?>.Publisher { get }
+    var isError: Published<(isError: Bool, date: String)>.Publisher { get }
     func fetchAPOD(for date: String)
-    var isError: AnyPublisher<(isError: Bool, date: String), Never> { get }
 }

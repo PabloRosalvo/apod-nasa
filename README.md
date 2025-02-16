@@ -2,7 +2,10 @@
 
 ## Descrição
 
-O APOD NASA é um aplicativo móvel desenvolvido para exibir a Imagem Astronômica do Dia ("Astronomy Picture of the Day" - APOD), fornecida pela NASA. Os usuários podem buscar imagens e vídeos astronômicos por data, visualizar detalhes sobre cada item e adicionar favoritos para acesso rápido. O projeto prioriza uma interface simples e intuitiva, garantindo uma experiência fluida e eficiente.
+📌 Importante: Este projeto foi implementado em Combine no UIKit para aprofundar meus conhecimentos em programação reativa. No futuro, pretendo migrá-lo para SwiftUI, aproveitando os benefícios da reatividade nativa da plataforma.
+
+Graças ao uso de Combine, essa migração se torna ainda mais simples e natural, pois grande parte da lógica reativa implementada na ViewModel pode ser reaproveitada no SwiftUI, eliminando a necessidade de mudanças estruturais significativas. Essa abordagem reforça minha capacidade de desenvolver soluções reativas tanto no UIKit quanto no SwiftUI, garantindo flexibilidade, escalabilidade e um código ainda mais enxuto e eficiente
+
 
 ## Funcionalidades
 
@@ -43,6 +46,10 @@ Programação Reativa: Utilização de Combine para garantir uma interface reati
 
 Testes Simples e Eficazes: Uso de Quick e Nimble para testes fáceis de entender, mesmo para iniciantes.
 
+iOS 13: O Combine foi introduzido no iOS 13, tornando possível a adoção dessa abordagem reativa sem a necessidade de bibliotecas externas como RxSwift.
+Xcode 11: O suporte ao Combine e ao Swift Package Manager (SPM) foi introduzido no Xcode 11, permitindo o uso nativo desse framework para manipulação de fluxos assíncronos.
+Caso o objetivo seja migrar para SwiftUI, a versão mínima recomendada seria: iOS 14+.
+
 ## Módulo de Networking via SPM
 
 O projeto conta com um módulo de networking desacoplado, gerenciado via Swift Package Manager (SPM), permitindo reutilização em outros projetos. Esse módulo simplifica as chamadas de API, exigindo apenas o envio do endpoint correto.
@@ -55,12 +62,26 @@ Código mais limpo e reutilizável: elimina duplicação e facilita testes
 
 O APIEndpoint contém os endpoints necessários para buscar infos da NASA.
 
-## Diferenciais
-✅ Tests: O projeto possui uma cobertura de testes focado em nas classes principais, garantindo qualidade e testabilidade.
-🔥 Arquitetura Organizada: O padrão MVVM-C bem definido facilita a escalabilidade e manutenção.
-⚡ Programção Reativa: Uso de Combine para garantir uma interface responsiva.
-🛠 Testes Simples e Eficazes: Quick e Nimble são utilizados para testes unitários e de snapshot.
-🌐 Módulo de Networking via SPM: Facilita integrações e reutilização.
+## Published e Publisher para Atualizar a UI no UIKit
+O UIKit não foi projetado para ser totalmente reativo como o SwiftUI, mas com o uso de Combine, conseguimos fazer com que as Views do UIKit sejam atualizadas automaticamente sempre que os dados na ViewModel mudam. Essa abordagem melhora a separação de responsabilidades, evita atualizações manuais da UI, e torna o código mais limpo, desacoplado e reativo.
+
+📌 Como isso funciona?
+A ViewModel expõe estados observáveis com @Published.
+A ViewController se inscreve (sink) nos Publishers da ViewModel.
+Quando os valores mudam na ViewModel, a View recebe automaticamente as atualizações.
+
+Compatibilidade e Escolha do iOS 16
+O projeto foi desenvolvido com Swift Concurrency, utilizando Sendable e @MainActor para garantir segurança na concorrência e melhor gerenciamento da UI com Combine. Reduzindo riscos de data races e tornando o código mais seguro e previsível.
+
+Sendable: Garante segurança ao compartilhar objetos entre threads.
+@MainActor: Mantém atualizações da UI na Main Thread, evitando problemas de concorrência.
+Essa abordagem proporciona um código mais seguro, reativo e escalável.
+
+✅ Benefícios de usar Sendable e @MainActor
+Código mais seguro 🚀 → Evita bugs difíceis de rastrear causados por concorrência.
+Menos crashes e corrupção de dados 🔒 → O compilador verifica se as estruturas são seguras para concorrência.
+Melhor organização 📌 → Garante que a UI seja sempre atualizada na Main Thread.
+Maior escalabilidade 📈 → Permite criar código assíncrono robusto e preparado para multitarefa.
 
 ## Instalação
 ### Pré-requisitos:

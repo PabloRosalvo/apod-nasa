@@ -68,7 +68,7 @@ A ViewModel expõe estados observáveis com @Published.
 A ViewController se inscreve (sink) nos Publishers da ViewModel.
 Quando os valores mudam na ViewModel, a View recebe automaticamente as atualizações.
 
-Compatibilidade e Escolha do iOS 16
+## Compatibilidade e Escolha do iOS 15
 O projeto foi desenvolvido com Swift Concurrency, utilizando Sendable e @MainActor para garantir segurança na concorrência e melhor gerenciamento da UI com Combine. Reduzindo riscos de data races e tornando o código mais seguro e previsível.
 
 Sendable: Garante segurança ao compartilhar objetos entre threads.
@@ -76,9 +76,13 @@ Sendable: Garante segurança ao compartilhar objetos entre threads.
 Essa abordagem proporciona um código mais seguro, reativo e escalável.
 
 ✅ Benefícios de usar Sendable e @MainActor
+
 Código mais seguro 🚀 → Evita bugs difíceis de rastrear causados por concorrência.
+
 Menos crashes e corrupção de dados 🔒 → O compilador verifica se as estruturas são seguras para concorrência.
+
 Melhor organização 📌 → Garante que a UI seja sempre atualizada na Main Thread.
+
 Maior escalabilidade 📈 → Permite criar código assíncrono robusto e preparado para multitarefa.
 
 ## Instalação

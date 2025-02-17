@@ -3,7 +3,7 @@ import Kingfisher
 import WebKit
 
 final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNavigationDelegate {
-    
+        
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.hidesWhenStopped = true
@@ -34,13 +34,20 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        label.textColor = .label
+        label.textColor = UIColor.label
         label.numberOfLines = 2
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+        
+    private var mediaURL: String? {
+        willSet {
+            guard let newValue = newValue else { return }
+            handleMediaLoading(urlString: newValue)
+        }
+    }
+        
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -50,29 +57,81 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+        
     override func prepareForReuse() {
         super.prepareForReuse()
         mediaImageView.image = nil
         mediaImageView.isHidden = true
-        webView.stopLoading()
         webView.isHidden = true
+        webView.stopLoading()
+        activityIndicator.startAnimating()
     }
     
     func configure(with model: FavoritesListModel) {
         titleLabel.text = model.title
-        handleMediaLoading(urlString: model.mediaURL ?? "")
+        mediaURL = model.mediaURL
+    }
+        
+    private func handleMediaLoading(urlString: String) {
+        webView.isHidden = true
+        mediaImageView.isHidden = true
+        activityIndicator.startAnimating()
+        
+        if urlString.contains("youtube.com/embed/") {
+            loadWebView(urlString)
+        } else {
+            loadImage(urlString)
+        }
+    }
+    
+    private func loadWebView(_ urlString: String) {
+        guard let url = URL(string: urlString) else {
+            activityIndicator.stopAnimating()
+            return
+        }
+        webView.isHidden = false
+        webView.load(URLRequest(url: url))
+    }
+
+    private func loadImage(_ urlString: String) {
+        guard let url = URL(string: urlString) else {
+            setPlaceholderImage()
+            return
+        }
+        
+        mediaImageView.kf.setImage(with: url, placeholder: nil) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.mediaImageView.isHidden = false
+                self?.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    private func setPlaceholderImage() {
+        mediaImageView.image = UIImage(named: "image_teste")
+        mediaImageView.isHidden = false
+        activityIndicator.stopAnimating()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation?) {
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+            self.webView.isHidden = false
+        }
     }
     
     func configureViews() {
         selectionStyle = .none
-        contentView.backgroundColor = .systemBackground
         contentView.layer.cornerRadius = 12
         contentView.layer.shadowColor = UIColor.black.cgColor
         contentView.layer.shadowOpacity = 0.1
         contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
         contentView.layer.shadowRadius = 4
         contentView.clipsToBounds = false
+        
+        contentView.backgroundColor = UIColor.systemBackground
+        mediaImageView.backgroundColor = UIColor.secondarySystemBackground
+        webView.backgroundColor = UIColor.secondarySystemBackground
     }
     
     func setupViewHierarchy() {
@@ -102,57 +161,5 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
-    }
-    
-    func configure(with apod: APODResponse) {
-        titleLabel.text = apod.title
-        handleMediaLoading(urlString: apod.url ?? "")
-    }
-    
-    private func handleMediaLoading(urlString: String) {
-        webView.isHidden = true
-        mediaImageView.isHidden = true
-        activityIndicator.startAnimating()
-        
-        if urlString.contains("youtube.com/embed/") {
-            loadWebView(urlString)
-        } else {
-            loadImage(urlString)
-        }
-    }
-    
-    private func loadWebView(_ urlString: String) {
-        guard let url = URL(string: urlString) else {
-            activityIndicator.stopAnimating()
-            return
-        }
-        webView.isHidden = false
-        webView.load(URLRequest(url: url))
-    }
-
-    private func loadImage(_ urlString: String) {
-        if urlString.hasPrefix("https") {
-            mediaImageView.kf.setImage(
-                with: URL(string: urlString),
-                placeholder: nil,
-                completionHandler: { [weak self] _ in
-                    DispatchQueue.main.async {
-                        self?.mediaImageView.isHidden = false
-                        self?.activityIndicator.stopAnimating()
-                    }
-                }
-            )
-        } else {
-            mediaImageView.image = UIImage(named: "image_teste")
-            mediaImageView.isHidden = false
-            activityIndicator.stopAnimating()
-        }
-    }
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation?) {
-        DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            self.webView.isHidden = false
-        }
     }
 }

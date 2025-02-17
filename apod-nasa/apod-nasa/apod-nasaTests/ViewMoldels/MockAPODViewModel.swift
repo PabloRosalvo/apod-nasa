@@ -1,9 +1,3 @@
-//
-//  Untitled.swift
-//  apod-nasa
-//
-//  Created by Pablo Rosalvo de Melo Lopes on 14/02/25.
-//
 import Combine
 import Foundation
 
@@ -11,48 +5,44 @@ import Foundation
 
 final class MockAPODViewModel: APODViewModelProtocol {
     
-    private let service: APODServiceProtocol
+    @Published private var apodValue: APODResponse?
+    @Published private var isFavoriteValue: Bool = false
+    @Published private var isLoadingState: Bool = false
+    @Published private var isErrorAPI: Bool = false
+
+    var apod: Published<APODResponse?>.Publisher { $apodValue }
+    var isFavorite: Published<Bool>.Publisher { $isFavoriteValue }
+    var isLoading: Published<Bool>.Publisher { $isLoadingState }
+    var isError: Published<Bool>.Publisher { $isErrorAPI }
     
-    var apodSubject = PassthroughSubject<APODResponse?, Never>()
-    var isFavoriteSubject = PassthroughSubject<Bool, Never>()
-    var isLoadingSubject = PassthroughSubject<Bool, Never>()
-    var isErrorSubject = PassthroughSubject<Bool, Never>()
-
-    var apod: AnyPublisher<APODResponse?, Never> {
-        apodSubject.eraseToAnyPublisher()
-    }
-
-    var isFavorite: AnyPublisher<Bool, Never> {
-        isFavoriteSubject.eraseToAnyPublisher()
-    }
-
-    var isLoading: AnyPublisher<Bool, Never> {
-        isLoadingSubject.eraseToAnyPublisher()
-    }
-
-    var isError: AnyPublisher<Bool, Never> {
-        isErrorSubject.eraseToAnyPublisher()
-    }
-
     var primaryButtonTapped = PassthroughSubject<Void, Never>()
     var favoriteButtonTapped = PassthroughSubject<Void, Never>()
+
+    private let service: APODServiceProtocol
 
     init(service: APODServiceProtocol) {
         self.service = service
     }
 
     func viewWillAppear() {
+        isLoadingState = true
+        
         Task {
             let result = await service.fetchAPOD(date: "2025-02-15")
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let response):
-                    self.apodSubject.send(response)
-                case .failure:
-                    self.isErrorSubject.send(true)
-                }
+            
+            guard !Task.isCancelled else {
+                isLoadingState = false
+                return
             }
+            
+            switch result {
+            case .success(let response):
+                self.apodValue = response
+                self.isErrorAPI = false
+            case .failure:
+                self.isErrorAPI = true
+            }
+            self.isLoadingState = false
         }
     }
 }
-

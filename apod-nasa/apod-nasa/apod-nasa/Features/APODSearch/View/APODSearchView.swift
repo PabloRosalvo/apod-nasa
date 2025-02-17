@@ -181,7 +181,7 @@ final class APODSearchView: UIView, ViewConfiguration {
         } else {
             webView.isHidden = true
             imageView.isHidden = false
-            imageView.setImage(from: urlString)
+            imageView.setImage(urlString)
         }
     }
 }

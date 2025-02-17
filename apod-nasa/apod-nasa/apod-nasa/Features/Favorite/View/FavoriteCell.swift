@@ -87,16 +87,14 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
     }
 
     private func loadImage(_ urlString: String) {
-        guard let url = URL(string: urlString) else {
+        guard urlString.hasPrefix("https") else {
             setPlaceholderImage()
             return
         }
         
-        mediaImageView.kf.setImage(with: url, placeholder: nil) { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.mediaImageView.isHidden = false
-                self?.activityIndicator.stopAnimating()
-            }
+        mediaImageView.setImage(urlString) { [weak self] in
+            self?.mediaImageView.isHidden = false
+            self?.activityIndicator.stopAnimating()
         }
     }
     

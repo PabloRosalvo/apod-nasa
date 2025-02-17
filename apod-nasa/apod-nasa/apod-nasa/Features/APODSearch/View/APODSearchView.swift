@@ -41,7 +41,7 @@ final class APODSearchView: UIView, ViewConfiguration {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        label.textColor = .darkGray
+        label.textColor = UIColor.label
         label.numberOfLines = 0
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +51,7 @@ final class APODSearchView: UIView, ViewConfiguration {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .gray
+        label.textColor = UIColor.secondaryLabel
         label.numberOfLines = 0
         label.textAlignment = .justified
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +63,7 @@ final class APODSearchView: UIView, ViewConfiguration {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 12
-        imageView.backgroundColor = .lightGray
+        imageView.backgroundColor = UIColor.systemGray5
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -82,7 +82,7 @@ final class APODSearchView: UIView, ViewConfiguration {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemGray3.cgColor
+        view.layer.borderColor = UIColor.separator.cgColor
         view.clipsToBounds = true
         return view
     }()
@@ -107,9 +107,8 @@ final class APODSearchView: UIView, ViewConfiguration {
     }
     
     func configureViews() {
-        backgroundColor = .white
+        backgroundColor = UIColor.systemBackground
         searchButton.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
-        
     }
     
     func setupViewHierarchy() {

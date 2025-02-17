@@ -15,14 +15,14 @@ final class FavoritesView: UIView {
     }
     
     private func setupView() {
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         setupTableView()
     }
     
     private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(FavoriteCell.self)
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .clear
         addSubview(tableView)
         
         NSLayoutConstraint.activate([

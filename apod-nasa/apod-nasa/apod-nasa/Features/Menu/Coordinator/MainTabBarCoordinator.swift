@@ -1,6 +1,7 @@
 import UIKit
 import Combine
 import Network
+
 @MainActor
 final class MainTabBarCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator?

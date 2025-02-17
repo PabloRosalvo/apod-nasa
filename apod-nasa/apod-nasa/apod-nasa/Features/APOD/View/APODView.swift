@@ -37,7 +37,7 @@ final class APODView: UIView, WKNavigationDelegate, ViewConfiguration {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemGray3.cgColor
+        view.layer.borderColor = UIColor.separator.cgColor
         view.clipsToBounds = true
         view.isHidden = true
         return view
@@ -69,7 +69,7 @@ final class APODView: UIView, WKNavigationDelegate, ViewConfiguration {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
-        label.textColor = UIColor.darkGray
+        label.textColor = UIColor.label
         label.numberOfLines = 0
         label.textAlignment = .center
         return label
@@ -78,7 +78,7 @@ final class APODView: UIView, WKNavigationDelegate, ViewConfiguration {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.textColor = UIColor.gray
+        label.textColor = UIColor.secondaryLabel
         label.numberOfLines = 0
         label.textAlignment = .justified
         return label

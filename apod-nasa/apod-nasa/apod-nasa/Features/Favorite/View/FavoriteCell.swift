@@ -34,7 +34,7 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        label.textColor = .darkGray
+        label.textColor = .label
         label.numberOfLines = 2
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +58,7 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
     
     func configureViews() {
         selectionStyle = .none
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .systemBackground
         contentView.layer.cornerRadius = 12
         contentView.layer.shadowColor = UIColor.black.cgColor
         contentView.layer.shadowOpacity = 0.1
@@ -107,29 +107,37 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
         activityIndicator.startAnimating()
         
         if urlString.contains("youtube.com/embed/") {
-            webView.isHidden = true
-            guard let url = URL(string: urlString) else {
-                activityIndicator.stopAnimating()
-                return
-            }
-            webView.isHidden = false
-            webView.load(URLRequest(url: url))
+            loadWebView(urlString)
         } else {
-            if urlString.contains("https") {
-                mediaImageView.isHidden = true
-                mediaImageView.kf.setImage(with: URL(string: urlString),
-                                           placeholder: nil,
-                                           completionHandler: { [weak self] _ in
+            loadImage(urlString)
+        }
+    }
+    
+    private func loadWebView(_ urlString: String) {
+        guard let url = URL(string: urlString) else {
+            activityIndicator.stopAnimating()
+            return
+        }
+        webView.isHidden = false
+        webView.load(URLRequest(url: url))
+    }
+
+    private func loadImage(_ urlString: String) {
+        if urlString.hasPrefix("https") {
+            mediaImageView.kf.setImage(
+                with: URL(string: urlString),
+                placeholder: nil,
+                completionHandler: { [weak self] _ in
                     DispatchQueue.main.async {
                         self?.mediaImageView.isHidden = false
                         self?.activityIndicator.stopAnimating()
                     }
-                })
-            } else {
-                mediaImageView.image = UIImage(named: "image_teste")
-                self.mediaImageView.isHidden = false
-                self.activityIndicator.stopAnimating()
-            }
+                }
+            )
+        } else {
+            mediaImageView.image = UIImage(named: "image_teste")
+            mediaImageView.isHidden = false
+            activityIndicator.stopAnimating()
         }
     }
     

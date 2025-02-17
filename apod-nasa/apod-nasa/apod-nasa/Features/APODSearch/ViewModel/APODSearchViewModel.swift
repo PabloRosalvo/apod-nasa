@@ -4,6 +4,7 @@ import Combine
 final class APODSearchViewModel: APODSearchViewModelProtocol {
     
     private let service: APODServiceProtocol
+    private var fetchTask: Task<Void, Never>?
     
     @Published private var isErrorAPI: (isError: Bool, date: String) = (false, "")
     @Published private var apod: APODResponse?
@@ -16,16 +17,24 @@ final class APODSearchViewModel: APODSearchViewModelProtocol {
     }
 
     func fetchAPOD(for date: String) {
-        Task {
+        fetchTask?.cancel()
+        
+        fetchTask = Task {
             let result = await service.fetchAPOD(date: date)
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let response):
-                    self.apod = response
-                case .failure(_):
-                    self.isErrorAPI = (true, date)
-                    self.apod = nil
-                }
+
+            guard !Task.isCancelled else {
+                self.isErrorAPI = (false, "")
+                return
+            }
+
+            switch result {
+            case .success(let response):
+                self.apod = response
+                self.isErrorAPI = (false, "")
+
+            case .failure:
+                self.isErrorAPI = (true, date)
+                self.apod = nil
             }
         }
     }

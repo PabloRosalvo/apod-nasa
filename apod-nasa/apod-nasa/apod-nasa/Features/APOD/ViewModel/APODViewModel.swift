@@ -20,7 +20,7 @@ final class APODViewModel: APODViewModelProtocol {
     var apod: Published<APODResponse?>.Publisher { $model }
     var isFavorite: Published<Bool>.Publisher { $isFavoriteValue }
     var isLoading: Published<Bool>.Publisher { $isLoadingState }
-    var isError: Published<Bool>.Publisher { $isErrorAPI }
+    var isError: Published<Bool>.Publisher { $isErrorAPI    }
 
     init(service: APODServiceProtocol) {
         self.service = service
@@ -35,18 +35,22 @@ final class APODViewModel: APODViewModelProtocol {
         isLoadingState = true
         Task {
             let result = await service.fetchAPOD(date: Date().toYYYYMMDD())
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let response):
-                    self.model = response
-                    self.isFavoriteValue = FavoritesManager.shared.isFavorite(response)
-                case .failure(_):
-                    self.isErrorAPI = true
-                }
-                self.isLoadingState = false
+
+            guard !Task.isCancelled else { return }
+            
+            switch result {
+            case .success(let response):
+                self.model = response
+                self.isFavoriteValue = FavoritesManager.shared.isFavorite(response)
+                
+            case .failure(_):
+                self.isErrorAPI = true
             }
+
+            self.isLoadingState = false
         }
     }
+
 }
 
 extension APODViewModel {

@@ -41,13 +41,6 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
         return label
     }()
         
-    private var mediaURL: String? {
-        willSet {
-            guard let newValue = newValue else { return }
-            handleMediaLoading(urlString: newValue)
-        }
-    }
-        
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -69,7 +62,7 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
     
     func configure(with model: FavoritesListModel) {
         titleLabel.text = model.title
-        mediaURL = model.mediaURL
+        handleMediaLoading(urlString: model.mediaURL ?? "")
     }
         
     private func handleMediaLoading(urlString: String) {
@@ -128,7 +121,6 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
         contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
         contentView.layer.shadowRadius = 4
         contentView.clipsToBounds = false
-        
         contentView.backgroundColor = UIColor.systemBackground
         mediaImageView.backgroundColor = UIColor.secondarySystemBackground
         webView.backgroundColor = UIColor.secondarySystemBackground

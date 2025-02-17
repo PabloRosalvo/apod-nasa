@@ -51,6 +51,14 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        mediaImageView.image = nil
+        mediaImageView.isHidden = true
+        webView.stopLoading()
+        webView.isHidden = true
+    }
+    
     func configure(with model: FavoritesListModel) {
         titleLabel.text = model.title
         handleMediaLoading(urlString: model.mediaURL ?? "")

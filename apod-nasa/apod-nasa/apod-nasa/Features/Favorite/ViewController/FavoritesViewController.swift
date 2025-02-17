@@ -51,10 +51,13 @@ extension FavoritesViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(FavoriteCell.self, for: indexPath)
-        cell.configure(with: viewModel.getFavorites()[indexPath.row])
+        cell.prepareForReuse()
+        let favoriteItem = viewModel.getFavorites()[indexPath.row]
+        cell.configure(with: favoriteItem)
         return cell
     }
 }
+
 
 extension FavoritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,

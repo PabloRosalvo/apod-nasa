@@ -36,7 +36,10 @@ final class APODViewModel: APODViewModelProtocol {
         Task {
             let result = await service.fetchAPOD(date: Date().toYYYYMMDD())
 
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled else {
+                self.isErrorAPI = true
+                return
+            }
             
             switch result {
             case .success(let response):

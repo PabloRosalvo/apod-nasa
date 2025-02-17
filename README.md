@@ -21,6 +21,8 @@ O APOD NASA é um aplicativo móvel que exibe a Imagem Astronômica do Dia (Astr
 
 🛠 Módulo de networking via SPM para fácil reutilização
 
+🚀 Suporte a temas claros e escuros (usando o modo dark/light do sistema)
+
 Tecnologias Utilizadas
 Linguagem: Swift
 Arquitetura: MVVM-C (Model-View-ViewModel-Coordinator)

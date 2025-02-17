@@ -50,7 +50,7 @@ public enum MockAPIEndpoint: EndPointType {
     }
 
     public var queryParameters: [String: Any] {
-        return [:] // Nenhum parâmetro necessário no mock
+        return [:]
     }
 }
 

@@ -3,19 +3,21 @@ import UIKit
 
 @MainActor
 final class MainTabBarViewModel: MainTabBarViewModelProtocol {
+    
     let primaryButtonTapped = PassthroughSubject<() -> UIViewController?, Never>()
     let navigationEvent = PassthroughSubject<MainTabNavigationEvent, Never>()
     
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        bind()
+    }
+    
+    private func bind() {
         primaryButtonTapped
-            .sink { [weak self] viewControllerProvider in
-                guard let viewController = viewControllerProvider() else { return }
-                self?.navigationEvent.send(
-                    .favoriteSelected(viewControler: viewController)
-                )
-            }
+            .compactMap { $0() }
+            .map { MainTabNavigationEvent.favoriteSelected(viewControler: $0) }
+            .subscribe(navigationEvent)
             .store(in: &cancellables)
     }
 }

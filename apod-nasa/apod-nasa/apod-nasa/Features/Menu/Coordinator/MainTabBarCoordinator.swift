@@ -46,7 +46,6 @@ final class MainTabBarCoordinator: Coordinator {
             image: UIImage(systemName: "house.fill"),
             tag: 0
         )
-        bindNavigation(for: viewModel)
         return homeViewController
     }
 
@@ -69,14 +68,6 @@ final class MainTabBarCoordinator: Coordinator {
             tag: 2
         )
         return searchViewController
-    }
-    
-    private func bindNavigation(for viewModel: APODViewModel) {
-        viewModel.navigationEvent
-            .sink { [weak self] event in
-                self?.handleNavigation(event)
-            }
-            .store(in: &cancellables)
     }
 
     private func handleNavigation(_ event: MainTabNavigationEvent) {

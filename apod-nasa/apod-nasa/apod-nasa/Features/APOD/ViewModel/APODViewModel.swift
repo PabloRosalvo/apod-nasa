@@ -5,8 +5,6 @@ import Network
 @MainActor
 final class APODViewModel: APODViewModelProtocol {
     
-    let primaryButtonTapped = PassthroughSubject<Void, Never>()
-    let navigationEvent = PassthroughSubject<MainTabNavigationEvent, Never>()
     let favoriteButtonTapped = PassthroughSubject<Void, Never>()
 
     private let service: APODServiceProtocol

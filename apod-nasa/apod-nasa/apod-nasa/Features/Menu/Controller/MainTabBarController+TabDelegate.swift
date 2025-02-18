@@ -11,6 +11,6 @@ extension MainTabBarController {
                           didSelect viewController: UIViewController) {
         guard let navController = viewController as? UINavigationController,
               let topViewController = navController.topViewController else { return }
-        viewModel.primaryButtonTapped.send(topViewController)
+        viewModel.primaryButtonTapped.send { topViewController }
     }
 }

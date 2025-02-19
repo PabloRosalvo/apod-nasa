@@ -39,8 +39,6 @@ final class APODSearchViewModelSpec: QuickSpec {
                             expect(receivedAPOD?.url).toEventually(equal("image_teste"))
                         }
                         .store(in: &cancellables)
-
-                  
                 }
             }
 

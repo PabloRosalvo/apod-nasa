@@ -5,10 +5,10 @@ import Foundation
 
 final class MockAPODViewModel: APODViewModelProtocol {
     
-    @Published private var apodValue: APODResponse?
-    @Published private var isFavoriteValue: Bool = false
-    @Published private var isLoadingState: Bool = false
-    @Published private var isErrorAPI: Bool = false
+    @Published var apodValue: APODResponse?
+    @Published var isFavoriteValue: Bool = false
+    @Published var isLoadingState: Bool = false
+    @Published var isErrorAPI: Bool = false
 
     var apod: Published<APODResponse?>.Publisher { $apodValue }
     var isFavorite: Published<Bool>.Publisher { $isFavoriteValue }

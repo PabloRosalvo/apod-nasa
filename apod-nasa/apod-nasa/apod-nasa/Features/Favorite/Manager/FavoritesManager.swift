@@ -1,6 +1,14 @@
 import Foundation
 
-final class FavoritesManager {
+protocol FavoritesManagerProtocol {
+    func toggleFavorite(_ apod: APODResponse)
+    func saveFavorite(_ apod: APODResponse)
+    func removeFavorite(_ apod: APODResponse)
+    func isFavorite(_ apod: APODResponse) -> Bool
+    func getFavorites() -> [APODResponse]
+}
+
+final class FavoritesManager: FavoritesManagerProtocol {
     static let shared = FavoritesManager()
     private let key = "favorite_apods"
 

@@ -54,7 +54,10 @@ final class MainTabBarCoordinator: Coordinator {
     }
     
     private func createFavoritesViewController() -> UIViewController {
-        let favoritesViewController = FavoritesViewController(viewModel: FavoritesViewModel())
+        let viewModel = FavoritesViewModel(
+            favoritesManager: FavoritesManager.shared
+        )
+        let favoritesViewController = FavoritesViewController(viewModel: viewModel)
         favoritesViewController.tabBarItem = UITabBarItem(
             title: "Favoritos",
             image: UIImage(systemName: "star.fill"),

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct APODResponse: Codable {
+public struct APODResponse: Codable, Sendable {
     public let title: String
     public let date: String
     public let explanation: String

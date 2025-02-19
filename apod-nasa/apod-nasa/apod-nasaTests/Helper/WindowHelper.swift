@@ -13,6 +13,11 @@ final class WindowHelper {
         WindowHelper.testWindow.isHidden = false
     }
     
+    static func showInTestWindow(nav: UINavigationController) {
+        WindowHelper.testWindow.rootViewController = nav
+        WindowHelper.testWindow.isHidden = false
+    }
+    
     static func cleanTestWindow() {
         WindowHelper.testWindow.rootViewController = nil
         WindowHelper.testWindow.isHidden = true

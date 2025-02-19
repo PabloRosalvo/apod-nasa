@@ -10,7 +10,10 @@ final class MainTabBarCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     private var cancellables = Set<AnyCancellable>()
     
-    init(navigationController: UINavigationController) {
+    private let service: APODServiceProtocol
+
+    init(navigationController: UINavigationController, service: APODServiceProtocol) {
+        self.service = service
         self.navigationController = navigationController
     }
     
@@ -23,12 +26,10 @@ final class MainTabBarCoordinator: Coordinator {
             .store(in: &cancellables)
         
         let tabBarController = createTabBarController(viewModel: viewModel)
-        tabBarController.coordinator = self
         navigationController.pushViewController(tabBarController, animated: true)
     }
     
     private func createTabBarController(viewModel: MainTabBarViewModel) -> MainTabBarController {
-        let service = APODService(requestManager: RequestManager())
         let homeVC = createHomeViewController(service: service)
         let favoritesVC = createFavoritesViewController()
         let searchVC = createSearchViewController()
@@ -67,7 +68,7 @@ final class MainTabBarCoordinator: Coordinator {
     }
     
     private func createSearchViewController() -> UIViewController {
-        let viewModel = APODSearchViewModel(service: APODService(requestManager: RequestManager()))
+        let viewModel = APODSearchViewModel(service: service)
         let searchViewController = APODSearchViewController(viewModel: viewModel)
         searchViewController.tabBarItem = UITabBarItem(
             title: "Buscar",

@@ -5,15 +5,15 @@
 //  Created by Pablo Rosalvo de Melo Lopes on 14/02/25.
 //
 
-
 import UIKit
 import Network
 
-@testable @preconcurrency import apod_nasa
+@testable import apod_nasa
 
-final class MockAPODService: APODServiceProtocol {
-    var shouldReturnError: Bool
-    let requestManager: RequestManagerProtocol
+@MainActor 
+final class MockAPODService: APODServiceProtocol, @unchecked Sendable {
+    private let requestManager: RequestManagerProtocol
+    private let shouldReturnError: Bool
 
     init(shouldReturnError: Bool = false, requestManager: RequestManagerProtocol = MockRequestManager()) {
         self.shouldReturnError = shouldReturnError
@@ -22,7 +22,7 @@ final class MockAPODService: APODServiceProtocol {
     
     func fetchAPOD(date: String) async throws -> APODResponse {
         if shouldReturnError {
-            throw RequestError.networkError("Erro simulado na API")  
+            throw RequestError.networkError("Erro simulado na API")
         }
 
         do {
@@ -37,7 +37,7 @@ public enum MockAPIEndpoint: EndPointType {
     case mockAPOD
 
     public var path: String {
-        return "/mock/planetary/apod"
+        return ""
     }
 
     public var httpMethod: HTTPMethod {
@@ -45,7 +45,7 @@ public enum MockAPIEndpoint: EndPointType {
     }
 
     public var headers: HTTPHeaders? {
-        return ["Content-Type": "application/json"]
+        return [ :  ]
     }
 
     public var queryParameters: [String: Any] {
@@ -54,10 +54,9 @@ public enum MockAPIEndpoint: EndPointType {
 }
 
 
-
-final class MockRequestManager: RequestManagerProtocol {
-    let shouldReturnError: Bool
-    let mockResponse: APODResponse
+final class MockRequestManager: RequestManagerProtocol, Sendable {
+    private let shouldReturnError: Bool
+    private let mockResponse: APODResponse
 
     init(shouldReturnError: Bool = false) {
         self.shouldReturnError = shouldReturnError
@@ -65,7 +64,7 @@ final class MockRequestManager: RequestManagerProtocol {
             title: "Mocked APOD",
             date: "2025-02-15",
             explanation: "This is a mocked APOD response for testing purposes.",
-            url: "https://apod.nasa.gov/apod/image/MockImage.jpg",
+            url: "image_teste",
             mediaType: "image"
         )
     }
@@ -81,3 +80,4 @@ final class MockRequestManager: RequestManagerProtocol {
         }
     }
 }
+

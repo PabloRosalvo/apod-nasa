@@ -1,5 +1,5 @@
 import UIKit
-
+import Network
 class AppCoordinator: Coordinator {
     var window: UIWindow
     var navigationController: UINavigationController
@@ -12,7 +12,9 @@ class AppCoordinator: Coordinator {
     }
 
     func start() {
-        let mainTabBarCoordinator = MainTabBarCoordinator(navigationController: navigationController)
+        let service = APODService(requestManager: RequestManager())
+        let mainTabBarCoordinator = MainTabBarCoordinator(navigationController: navigationController,
+                                                          service: service)
         addChild(mainTabBarCoordinator)
         mainTabBarCoordinator.start()
 

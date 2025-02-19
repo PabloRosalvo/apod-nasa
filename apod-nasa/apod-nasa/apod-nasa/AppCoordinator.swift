@@ -6,17 +6,17 @@ class AppCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     weak var parentCoordinator: Coordinator?
 
-    init(window: UIWindow) {
-        self.window = window
+     init() {
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         self.navigationController = UINavigationController()
     }
-    
+
     func start() {
         let mainTabBarCoordinator = MainTabBarCoordinator(navigationController: navigationController)
-        childCoordinators.append(mainTabBarCoordinator)
+        addChild(mainTabBarCoordinator)
         mainTabBarCoordinator.start()
+
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
-    
 }

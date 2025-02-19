@@ -23,6 +23,7 @@ final class MainTabBarCoordinator: Coordinator {
             .store(in: &cancellables)
         
         let tabBarController = createTabBarController(viewModel: viewModel)
+        tabBarController.coordinator = self
         navigationController.pushViewController(tabBarController, animated: true)
     }
     

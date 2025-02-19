@@ -18,7 +18,9 @@ final class APODViewModel: APODViewModelProtocol {
     var apod: Published<APODResponse?>.Publisher { $model }
     var isFavorite: Published<Bool>.Publisher { $isFavoriteValue }
     var isLoading: Published<Bool>.Publisher { $isLoadingState }
-    var isError: Published<Bool>.Publisher { $isErrorAPI    }
+    var isError: Published<Bool>.Publisher { $isErrorAPI }
+    
+    private var fetchTask: Task<Void, Never>?
 
     init(service: APODServiceProtocol) {
         self.service = service
@@ -31,24 +33,22 @@ final class APODViewModel: APODViewModelProtocol {
     
     func fetchAPOD() {
         isLoadingState = true
-        Task {
-            let result = await service.fetchAPOD(date: Date().toYYYYMMDD())
+        isErrorAPI = false
 
-            guard !Task.isCancelled else {
-                self.isErrorAPI = true
-                return
-            }
-            
-            switch result {
-            case .success(let response):
-                self.model = response
-                self.isFavoriteValue = FavoritesManager.shared.isFavorite(response)
-                
-            case .failure(_):
-                self.isErrorAPI = true
-            }
+        fetchTask?.cancel()
 
-            self.isLoadingState = false
+        fetchTask = Task {
+            defer { isLoadingState = false }
+
+            do {
+                let apodData = try await service.fetchAPOD(date: Date().toYYYYMMDD())
+                guard !Task.isCancelled else {  return }
+
+                model = apodData
+                isFavoriteValue = FavoritesManager.shared.isFavorite(apodData)
+            } catch {
+                isErrorAPI = true
+             }
         }
     }
 

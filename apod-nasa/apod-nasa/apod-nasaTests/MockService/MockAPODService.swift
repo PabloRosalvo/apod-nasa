@@ -20,16 +20,15 @@ final class MockAPODService: APODServiceProtocol {
         self.requestManager = requestManager
     }
     
-    func fetchAPOD(date: String) async -> Result<APODResponse> {
+    func fetchAPOD(date: String) async throws -> APODResponse {
         if shouldReturnError {
-            return .failure(.networkError("Erro simulado na API"))
-        } else {
-            do {
-                let response: APODResponse = try await requestManager.request(endpoint: MockAPIEndpoint.mockAPOD)
-                return .success(response)
-            } catch {
-                return .failure(.networkError("Erro no mock"))
-            }
+            throw RequestError.networkError("Erro simulado na API")  
+        }
+
+        do {
+            return try await requestManager.request(endpoint: MockAPIEndpoint.mockAPOD)
+        } catch {
+            throw RequestError.networkError("Erro no mock: \(error.localizedDescription)")
         }
     }
 }

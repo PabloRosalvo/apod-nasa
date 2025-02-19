@@ -6,8 +6,8 @@ class AppCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     weak var parentCoordinator: Coordinator?
 
-     init() {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
+    init(window: UIWindow) {
+        self.window = window
         self.navigationController = UINavigationController()
     }
 

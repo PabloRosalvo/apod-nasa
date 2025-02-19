@@ -19,6 +19,7 @@ final class MockAPODViewModel: APODViewModelProtocol {
     var favoriteButtonTapped = PassthroughSubject<Void, Never>()
 
     private let service: APODServiceProtocol
+    private var fetchTask: Task<Void, Never>?
 
     init(service: APODServiceProtocol) {
         self.service = service
@@ -26,23 +27,27 @@ final class MockAPODViewModel: APODViewModelProtocol {
 
     func viewWillAppear() {
         isLoadingState = true
-        
-        Task {
-            let result = await service.fetchAPOD(date: "2025-02-15")
-            
-            guard !Task.isCancelled else {
-                isLoadingState = false
-                return
-            }
-            
-            switch result {
-            case .success(let response):
+        isErrorAPI = false
+
+        fetchTask?.cancel()
+
+        fetchTask = Task {
+            do {
+                let response = try await service.fetchAPOD(date: "2025-02-15")
+
+                guard !Task.isCancelled else { return }
+                
                 self.apodValue = response
                 self.isErrorAPI = false
-            case .failure:
+            } catch {
+                guard !Task.isCancelled else { return }
+                
                 self.isErrorAPI = true
+                self.apodValue = nil
+                print("Erro ao buscar APOD: \(error.localizedDescription)")
             }
-            self.isLoadingState = false
+            
+            isLoadingState = false
         }
     }
 }

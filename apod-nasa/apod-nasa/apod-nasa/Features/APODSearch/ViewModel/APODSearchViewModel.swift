@@ -19,24 +19,23 @@ final class APODSearchViewModel: APODSearchViewModelProtocol {
 
     func fetchAPOD(for date: String) {
         fetchTask?.cancel()
-        
+
         fetchTask = Task {
-            let result = await service.fetchAPOD(date: date)
+            do {
+                let response = try await service.fetchAPOD(date: date)
+                
+                guard !Task.isCancelled else { return }
 
-            guard !Task.isCancelled else {
-                self.isErrorAPI = (false, "")
-                return
-            }
-
-            switch result {
-            case .success(let response):
                 self.apod = response
                 self.isErrorAPI = (false, "")
 
-            case .failure:
+            } catch {
+                guard !Task.isCancelled else { return }
+
                 self.isErrorAPI = (true, date)
                 self.apod = nil
             }
         }
     }
+
 }

@@ -2,6 +2,7 @@ import UIKit
 import Combine
 import Network
 
+
 @MainActor
 final class MainTabBarCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator?
@@ -13,29 +14,31 @@ final class MainTabBarCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
-     func start() {
-         let viewModel = MainTabBarViewModel()
-         viewModel.navigationEvent
-             .sink { [weak self] event in
-                 self?.handleNavigation(event)
-             }
-             .store(in: &cancellables)
-         
-         
-         let viewControllers = MainTabBarController(viewModel: viewModel,
-                                                    viewControllers: setupTabs())
-        navigationController.pushViewController(viewControllers, animated: true)
+    func start() {
+        let viewModel = MainTabBarViewModel()
+        viewModel.navigationEvent
+            .sink { [weak self] event in
+                self?.handleNavigation(event)
+            }
+            .store(in: &cancellables)
+        
+        let tabBarController = createTabBarController(viewModel: viewModel)
+        navigationController.pushViewController(tabBarController, animated: true)
     }
     
-    private func setupTabs() -> [UIViewController]{
+    private func createTabBarController(viewModel: MainTabBarViewModel) -> MainTabBarController {
         let service = APODService(requestManager: RequestManager())
-        let homeViewController = createHomeViewController(service: service )
-        let favoritesViewController = createFavoritesViewController()
-        let searchAPODViewController = createSearchViewController()
+        let homeVC = createHomeViewController(service: service)
+        let favoritesVC = createFavoritesViewController()
+        let searchVC = createSearchViewController()
         
-        return [homeViewController,
-                favoritesViewController,
-                searchAPODViewController]
+        let viewControllers: [(UIViewController, MainTab)] = [
+            (homeVC, .home),
+            (favoritesVC, .favorites),
+            (searchVC, .search)
+        ]
+        
+        return MainTabBarController(viewModel: viewModel, viewControllers: viewControllers)
     }
 
     private func createHomeViewController(service: APODServiceProtocol) -> UIViewController {
@@ -48,7 +51,7 @@ final class MainTabBarCoordinator: Coordinator {
         )
         return homeViewController
     }
-
+    
     private func createFavoritesViewController() -> UIViewController {
         let favoritesViewController = FavoritesViewController(viewModel: FavoritesViewModel())
         favoritesViewController.tabBarItem = UITabBarItem(
@@ -69,17 +72,30 @@ final class MainTabBarCoordinator: Coordinator {
         )
         return searchViewController
     }
-
+    
     private func handleNavigation(_ event: MainTabNavigationEvent) {
         switch event {
-        case .favoriteSelected(viewControler: let viewControler):
-            if let homeVC = viewControler as? APODViewController {
-                homeVC.viewWillAppear(true)
-            }
-            if let favoritesVC = viewControler as? FavoritesViewController {
-                favoritesVC.viewDidLoad()
+        case .tabSelected(let tab):
+            handleTabSelection(tab)
+        }
+    }
+    
+    private func handleTabSelection(_ tab: MainTab) {
+        if let tabBarController = navigationController.viewControllers.first as? UITabBarController,
+           let selectedNavController = tabBarController.selectedViewController as? UINavigationController {
+            
+            switch tab {
+            case .home:
+                if let homeVC = selectedNavController.topViewController as? APODViewController {
+                    homeVC.viewWillAppear(true)
+                }
+            case .favorites:
+                if let favoritesVC = selectedNavController.topViewController as? FavoritesViewController {
+                    favoritesVC.viewDidLoad()
+                }
+            case .search:
+                break
             }
         }
     }
-
 }

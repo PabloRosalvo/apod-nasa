@@ -4,6 +4,6 @@ import UIKit
 
 @MainActor
 protocol MainTabBarViewModelProtocol {
-    var primaryButtonTapped: PassthroughSubject<() -> UIViewController?, Never> { get }
+    var tabSelected: PassthroughSubject<MainTab, Never> { get }
     var navigationEvent: PassthroughSubject<MainTabNavigationEvent, Never> { get }
 }

@@ -128,12 +128,12 @@ final class APODView: UIView, WKNavigationDelegate, ViewConfiguration {
     
     private func setupBindings() {
         $apod
-            .compactMap { $0 }  
+            .compactMap { $0 }
             .sink { [weak self] apod in
                 self?.updateUI(apod)
             }
             .store(in: &cancellables)
-
+        
     }
     
     func updateUI(_ model: APODResponse) {

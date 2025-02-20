@@ -29,14 +29,13 @@ final class FavoritesViewController: UIViewController {
     
     private func setupBindings() {
         viewModel.favoritesPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] favorites in
+            .sinkToMainThread { [weak self] favorites in
                 self?.contentView.updateFavorites(favorites)
             }
             .store(in: &cancellables)
         
         contentView.deleteActionPublisher
-            .sink { [weak self] index in
+            .sinkToMainThread { [weak self] index in
                 self?.viewModel.removeFavorite(at: index)
             }
             .store(in: &cancellables)

@@ -27,7 +27,9 @@ final class FavoritesViewModel: FavoritesViewModelProtocol {
     }
     
     func removeFavorite(at index: Int) {
+        guard index >= 0, index < favorites.count else { return }
         let favoriteToRemove = favorites[index]
         favoritesManager.removeFavorite(favoriteToRemove)
     }
+
 }

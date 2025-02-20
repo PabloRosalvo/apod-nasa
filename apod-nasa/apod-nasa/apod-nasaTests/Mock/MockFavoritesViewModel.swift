@@ -5,19 +5,28 @@ import Foundation
 
 final class MockFavoritesViewModel: FavoritesViewModelProtocol {
     
-    @Published private var favorites: [FavoritesListModel] = []
+    @Published private var favorites: [APODResponse] = []
     
-    var favoritesPublisher: Published<[FavoritesListModel]>.Publisher { $favorites }
+    var favoritesPublisher: Published<[APODResponse]>.Publisher { $favorites }
+
+    init() {
+        loadFavorites()
+    }
 
     func loadFavorites() {
         favorites = [
-            FavoritesListModel(title: "Galáxia de Andrômeda", mediaURL: "image_teste"),
-            FavoritesListModel(title: "Nebulosa de Órion", mediaURL: "image_teste")
+            APODResponse(title: "Galáxia de Andrômeda",
+                         date: "2024-02-19",
+                         explanation: "Descrição teste",
+                         url: "image_test_1",
+                         mediaType: "image"),
+            
+            APODResponse(title: "Nebulosa de Órion",
+                         date: "2024-02-19",
+                         explanation: "Descrição teste",
+                         url: "image_test_2",
+                         mediaType: "image")
         ]
-    }
-
-    func getFavorites() -> [FavoritesListModel] {
-        return favorites
     }
 
     func removeFavorite(at index: Int) {

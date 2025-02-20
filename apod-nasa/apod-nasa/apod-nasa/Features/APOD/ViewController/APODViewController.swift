@@ -38,46 +38,36 @@ class APODViewController: UIViewController {
     
     private func setupBindings() {
         viewModel.apod
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] apod in
+            .sinkToMainThread { [weak self] apod in
                 self?.contentView.apod = apod
             }
             .store(in: &cancellables)
         
         viewModel.isFavorite
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isFavorite in
+            .sinkToMainThread { [weak self] isFavorite in
                 self?.contentView.updateFavoriteButton(isFavorite: isFavorite)
             }
             .store(in: &cancellables)
         
         contentView.favoriteButtonTapped
-            .sink { [weak self] in
+            .sinkToMainThread { [weak self] in
                 self?.viewModel.favoriteButtonTapped.send(())
             }
             .store(in: &cancellables)
         
         viewModel.isLoading
-            .receive(on: DispatchQueue.main)
-            .sink { isLoading in
-                if isLoading {
-                    LoadingView.startLoading()
-                } else {
-                    LoadingView.stopLoading()
-                }
+            .sinkToMainThread { isLoading in
+                isLoading ? LoadingView.startLoading() : LoadingView.stopLoading()
             }
             .store(in: &cancellables)
         
         viewModel.isError
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isError in
+            .sinkToMainThread { [weak self] isError in
                 guard let self = self, isError else { return }
                 
                 let errorModal = ErrorModalView(
                     message: "Falha ao buscar os dados.",
-                    retryAction: {
-                        self.viewModel.viewWillAppear()  
-                    }
+                    retryAction: { self.viewModel.viewWillAppear() }
                 )
                 errorModal.show(in: self.view)
             }

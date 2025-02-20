@@ -29,31 +29,28 @@ final class APODSearchViewController: UIViewController {
     
     private func setupBindings() {
         contentView.searchButtonTapped
-            .sink { [weak self] selectedDate in
+            .sinkToMainThread { [weak self] selectedDate in
                 self?.viewModel.fetchAPOD(for: selectedDate)
             }
             .store(in: &cancellables)
         
         viewModel.apodPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] apod in
+            .sinkToMainThread { [weak self] apod in
                 self?.contentView.update(with: apod)
             }
             .store(in: &cancellables)
         
         viewModel.isError
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isError, date in
-                if isError {
-                    let errorModal = ErrorModalView(
-                        message: "Falha ao buscar os dados.",
-                        retryAction: {
-                            self?.viewModel.fetchAPOD(for: date)
-                        }
-                    )
-                    errorModal.show(in: self?.view ?? UIView())
-                }
+            .sinkToMainThread { [weak self] isError, date in
+                guard let self = self, isError else { return }
+                
+                let errorModal = ErrorModalView(
+                    message: "Falha ao buscar os dados.",
+                    retryAction: { self.viewModel.fetchAPOD(for: date) }
+                )
+                errorModal.show(in: self.view)
             }
             .store(in: &cancellables)
     }
+
 }

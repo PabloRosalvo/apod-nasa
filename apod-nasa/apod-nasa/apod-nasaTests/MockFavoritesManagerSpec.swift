@@ -1,10 +1,3 @@
-//
-//  MockFavoritesManagerSpec.swift
-//  apod-nasaTests
-//
-//  Created by <YOUR NAME> on <DATE>.
-//
-
 import Quick
 import Nimble
 import Foundation

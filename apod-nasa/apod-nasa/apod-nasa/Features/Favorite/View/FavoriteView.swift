@@ -4,7 +4,7 @@ import Combine
 final class FavoritesView: UIView {
     
     let tableView = UITableView()
-    private var favorites: [FavoritesListModel] = []
+    private var favorites: [APODResponse] = []
     
     var deleteActionPublisher = PassthroughSubject<Int, Never>()
     
@@ -33,7 +33,7 @@ final class FavoritesView: UIView {
         ])
     }
     
-    func updateFavorites(_ favorites: [FavoritesListModel]) {
+    func updateFavorites(_ favorites: [APODResponse]) {
         self.favorites = favorites
         tableView.reloadData()
     }

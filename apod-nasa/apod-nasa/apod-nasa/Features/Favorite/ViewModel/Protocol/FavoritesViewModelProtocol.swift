@@ -3,8 +3,6 @@ import Combine
 
 @MainActor
 protocol FavoritesViewModelProtocol {
-    var favoritesPublisher: Published<[FavoritesListModel]>.Publisher { get }
-    func loadFavorites()
+    var favoritesPublisher: Published<[APODResponse]>.Publisher { get }
     func removeFavorite(at index: Int)
-    func getFavorites() -> [FavoritesListModel]
 }

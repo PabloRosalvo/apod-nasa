@@ -25,7 +25,6 @@ final class FavoritesViewController: UIViewController {
         super.viewDidLoad()
         title = "Favoritos"
         setupBindings()
-        viewModel.loadFavorites()
     }
     
     private func setupBindings() {

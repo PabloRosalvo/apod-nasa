@@ -60,9 +60,9 @@ final class FavoriteCell: UITableViewCell, Reusable, ViewConfiguration, WKNaviga
         activityIndicator.startAnimating()
     }
     
-    func configure(with model: FavoritesListModel) {
+    func configure(with model: APODResponse) {
         titleLabel.text = model.title
-        handleMediaLoading(urlString: model.mediaURL ?? "")
+        handleMediaLoading(urlString: model.url ?? "")
     }
         
     private func handleMediaLoading(urlString: String) {

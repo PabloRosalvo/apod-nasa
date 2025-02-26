@@ -41,6 +41,7 @@ final class APODViewModel: APODViewModelProtocol {
         fetchTask = Task {
             do {
                 let apodData = try await service.fetchAPOD(date: Date().toYYYYMMDD())
+                
                 guard !Task.isCancelled else { return }
 
                 await MainActor.run {

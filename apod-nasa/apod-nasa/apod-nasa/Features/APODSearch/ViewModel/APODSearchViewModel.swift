@@ -1,6 +1,12 @@
 import Foundation
 import Combine
 
+protocol APODSearchViewModelProtocol {
+    var apodPublisher: Published<APODResponse?>.Publisher { get }
+    var isError: Published<(isError: Bool, date: String)>.Publisher { get }
+    func fetchAPOD(for date: String)
+}
+
 final class APODSearchViewModel: APODSearchViewModelProtocol {
     
     private let service: APODServiceProtocol
@@ -22,6 +28,7 @@ final class APODSearchViewModel: APODSearchViewModelProtocol {
         fetchTask = Task {
             do {
                 let response = try await service.fetchAPOD(date: date)
+                
                 guard !Task.isCancelled else { return }
 
                 await MainActor.run {

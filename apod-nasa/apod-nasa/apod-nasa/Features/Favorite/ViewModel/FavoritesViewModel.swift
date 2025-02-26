@@ -19,8 +19,7 @@ final class FavoritesViewModel: FavoritesViewModelProtocol {
     
     private func bindFavorites() {
         favoritesManager.favoritesPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] favorites in
+            .sinkToMainThread { [weak self] favorites in
                 self?.favorites = favorites
             }
             .store(in: &cancellables)

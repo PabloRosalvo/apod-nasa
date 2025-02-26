@@ -44,7 +44,7 @@ final class MainTabBarCoordinator: Coordinator {
     }
 
     private func createHomeViewController(service: APODServiceProtocol) -> UIViewController {
-        let viewModel = APODViewModel(service: service)
+        let viewModel = APODViewModel(service: service, favoritesManager: FavoritesManager.shared)
         let homeViewController = APODViewController(viewModel: viewModel)
         homeViewController.tabBarItem = UITabBarItem(
             title: "Home",

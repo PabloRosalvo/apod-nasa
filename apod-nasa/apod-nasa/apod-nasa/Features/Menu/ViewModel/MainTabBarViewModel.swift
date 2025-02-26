@@ -1,7 +1,6 @@
 import Combine
 import UIKit
 
-@MainActor
 final class MainTabBarViewModel: MainTabBarViewModelProtocol {
     
     let tabSelected = PassthroughSubject<MainTab, Never>()

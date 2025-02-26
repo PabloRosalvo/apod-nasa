@@ -4,13 +4,9 @@ import Combine
 class APODViewController: UIViewController {
     
     private let viewModel: APODViewModelProtocol
-    
-    private lazy var contentView: APODView = {
-        let contentView = APODView()
-        return contentView
-    }()
-    
     private var cancellables = Set<AnyCancellable>()
+    
+    private lazy var contentView = APODView()
     
     init(viewModel: APODViewModelProtocol) {
         self.viewModel = viewModel
@@ -22,15 +18,16 @@ class APODViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func loadView() {
+        self.view = contentView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "APOD"
         setupBindings()
     }
     
-    override func loadView() {
-        self.view = contentView
-    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.viewWillAppear()
@@ -38,40 +35,34 @@ class APODViewController: UIViewController {
     
     private func setupBindings() {
         viewModel.apod
-            .sinkToMainThread { [weak self] apod in
-                self?.contentView.apod = apod
-            }
+            .sinkToMainThread { [weak self] in self?.contentView.apod = $0 }
             .store(in: &cancellables)
         
         viewModel.isFavorite
-            .sinkToMainThread { [weak self] isFavorite in
-                self?.contentView.updateFavoriteButton(isFavorite: isFavorite)
-            }
+            .sinkToMainThread { [weak self] in self?.contentView.updateFavoriteButton(isFavorite: $0) }
             .store(in: &cancellables)
         
         contentView.favoriteButtonTapped
-            .sinkToMainThread { [weak self] in
-                self?.viewModel.favoriteButtonTapped.send(())
-            }
+            .sinkToMainThread { [weak self] in self?.viewModel.favoriteButtonTapped.send(()) }
             .store(in: &cancellables)
         
         viewModel.isLoading
-            .sinkToMainThread { isLoading in
-                isLoading ? LoadingView.startLoading() : LoadingView.stopLoading()
-            }
+            .sinkToMainThread { $0 ? LoadingView.startLoading() : LoadingView.stopLoading() }
             .store(in: &cancellables)
         
         viewModel.isError
             .sinkToMainThread { [weak self] isError in
                 guard let self = self, isError else { return }
-                
-                let errorModal = ErrorModalView(
-                    message: "Falha ao buscar os dados.",
-                    retryAction: { self.viewModel.viewWillAppear() }
-                )
-                errorModal.show(in: self.view)
+                self.showErrorModal()
             }
             .store(in: &cancellables)
     }
     
+    private func showErrorModal() {
+        let errorModal = ErrorModalView(
+            message: "Falha ao buscar os dados.",
+            retryAction: { self.viewModel.viewWillAppear() }
+        )
+        errorModal.show(in: self.view)
+    }
 }

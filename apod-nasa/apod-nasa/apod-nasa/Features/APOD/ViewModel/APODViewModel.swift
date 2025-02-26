@@ -2,27 +2,28 @@ import Foundation
 import Combine
 import Network
 
-@MainActor
 final class APODViewModel: APODViewModelProtocol {
     
-    let favoriteButtonTapped = PassthroughSubject<Void, Never>()
-
-    private let service: APODServiceProtocol
-    private var cancellables = Set<AnyCancellable>()
-
-    @Published private var model: APODResponse?
-    @Published private var isFavoriteValue: Bool = false
-    @Published private var isLoadingState: Bool = false
-    @Published private var isErrorAPI: Bool = false
-
+    @Published private(set) var model: APODResponse?
+    @Published private(set) var isFavoriteValue: Bool = false
+    @Published private(set) var isLoadingState: Bool = false
+    @Published private(set) var isErrorAPI: Bool = false
+    
     var apod: Published<APODResponse?>.Publisher { $model }
     var isFavorite: Published<Bool>.Publisher { $isFavoriteValue }
     var isLoading: Published<Bool>.Publisher { $isLoadingState }
     var isError: Published<Bool>.Publisher { $isErrorAPI }
-    
-    private var fetchTask: Task<Void, Never>?
 
-    init(service: APODServiceProtocol) {
+    let favoriteButtonTapped = PassthroughSubject<Void, Never>()
+    
+    private let service: APODServiceProtocol
+    private var cancellables = Set<AnyCancellable>()
+    private var fetchTask: Task<Void, Never>?
+    private let favoritesManager: FavoritesManagerProtocol
+    
+    init(service: APODServiceProtocol,
+         favoritesManager: FavoritesManagerProtocol) {
+        self.favoritesManager = favoritesManager
         self.service = service
         setupBindings()
     }
@@ -38,34 +39,42 @@ final class APODViewModel: APODViewModelProtocol {
         fetchTask?.cancel()
 
         fetchTask = Task {
-            defer { isLoadingState = false }
-
             do {
                 let apodData = try await service.fetchAPOD(date: Date().toYYYYMMDD())
-                guard !Task.isCancelled else {  return }
+                guard !Task.isCancelled else { return }
 
-                model = apodData
-                isFavoriteValue = FavoritesManager.shared.isFavorite(apodData)
+                await MainActor.run {
+                    self.model = apodData
+                    self.isFavoriteValue = self.favoritesManager.isFavorite(apodData)
+                    self.isLoadingState = false
+                }
             } catch {
-                isErrorAPI = true
-             }
+                await MainActor.run {
+                    self.isErrorAPI = true
+                    self.isLoadingState = false
+                }
+            }
         }
     }
 
 }
 
 extension APODViewModel {
-    func setupBindings() {
+    private func setupBindings() {
         favoriteButtonTapped
             .sink { [weak self] in
                 guard let self = self, let apod = self.model else { return }
-                if self.isFavoriteValue {
-                    FavoritesManager.shared.removeFavorite(apod)
-                } else {
-                    FavoritesManager.shared.saveFavorite(apod)
-                }
-                self.isFavoriteValue.toggle()
+                self.toggleFavorite(apod: apod)
             }
             .store(in: &cancellables)
+    }
+
+    private func toggleFavorite(apod: APODResponse) {
+        if isFavoriteValue {
+            favoritesManager.removeFavorite(apod)
+        } else {
+            favoritesManager.saveFavorite(apod)
+        }
+        isFavoriteValue.toggle()
     }
 }
